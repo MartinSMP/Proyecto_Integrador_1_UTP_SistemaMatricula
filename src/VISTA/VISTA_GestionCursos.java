@@ -1,0 +1,509 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package VISTA;
+
+import CONTROLADOR.CONTROLADOR_Curso;
+import MODELO.MODELO_Curso;
+import MODELO.MODELO_Usuario;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.util.List;
+import java.text.SimpleDateFormat;
+import VISTA.VISTA_FormularioCurso;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+/**
+ *
+ * @author MartinSoftware
+ */
+public class VISTA_GestionCursos extends javax.swing.JFrame {
+
+    private MODELO_Usuario usuarioLogueado;
+    private CONTROLADOR_Curso controlador;
+    private DefaultTableModel modeloTabla;
+    private SimpleDateFormat formatoFecha;
+
+    /**
+     * Constructor que recibe el usuario logueado
+     */
+    public VISTA_GestionCursos(MODELO_Usuario usuario) {
+        initComponents();
+        this.usuarioLogueado = usuario;
+        this.controlador = new CONTROLADOR_Curso();
+        this.formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        //configurarVentana();
+        configurarTabla();
+        configurarEfectosHover();
+        cargarDatos();
+    }
+
+    /**
+     * Configurar ventana
+     */
+    private void configurarVentana() {
+        this.setLocationRelativeTo(null);
+        this.setTitle("Gestión de Cursos - Academia de Belleza");
+        btnEditar.setEnabled(false);
+        btnEliminar.setEnabled(false);
+    }
+
+    /**
+     * Configurar modelo de la tabla
+     */
+    private void configurarTabla() {
+        modeloTabla = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        // Definir columnas
+        modeloTabla.addColumn("ID");
+        modeloTabla.addColumn("Nombre Curso");
+        modeloTabla.addColumn("Nivel");
+        modeloTabla.addColumn("Duración");
+        modeloTabla.addColumn("Cupos");
+        modeloTabla.addColumn("Docente");
+        modeloTabla.addColumn("Horario");
+        modeloTabla.addColumn("Fecha Inicio");
+        modeloTabla.addColumn("Fecha Fin");
+        modeloTabla.addColumn("Estado");
+
+        tblCursos.setModel(modeloTabla);
+
+        // Ocultar columna ID
+        tblCursos.getColumnModel().getColumn(0).setMinWidth(0);
+        tblCursos.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblCursos.getColumnModel().getColumn(0).setWidth(0);
+
+        // Ajustar anchos de columnas
+        tblCursos.getColumnModel().getColumn(1).setPreferredWidth(150); // Nombre
+        tblCursos.getColumnModel().getColumn(2).setPreferredWidth(90);  // Nivel
+        tblCursos.getColumnModel().getColumn(3).setPreferredWidth(70);  // Duración
+        tblCursos.getColumnModel().getColumn(4).setPreferredWidth(60);  // Cupos
+        tblCursos.getColumnModel().getColumn(5).setPreferredWidth(150); // Docente
+        tblCursos.getColumnModel().getColumn(6).setPreferredWidth(180); // Horario
+        tblCursos.getColumnModel().getColumn(7).setPreferredWidth(90);  // Fecha Inicio
+        tblCursos.getColumnModel().getColumn(8).setPreferredWidth(90);  // Fecha Fin
+        tblCursos.getColumnModel().getColumn(9).setPreferredWidth(80);  // Estado
+
+        // Evento de selección
+        tblCursos.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                boolean seleccionado = tblCursos.getSelectedRow() != -1;
+                btnEditar.setEnabled(seleccionado);
+                btnEliminar.setEnabled(seleccionado);
+            }
+        });
+    }
+
+    /**
+     * Cargar datos en la tabla
+     */
+    private void cargarDatos() {
+        limpiarTabla();
+
+        List<MODELO_Curso> lista = controlador.listarTodos();
+
+        for (MODELO_Curso curso : lista) {
+            Object[] fila = new Object[10];
+            fila[0] = curso.getIdCurso();
+            fila[1] = curso.getNombreCurso();
+            fila[2] = curso.getNivel();
+            fila[3] = curso.getDuracionMeses() + " meses";
+            fila[4] = curso.getCuposDisponibles();
+            fila[5] = curso.getNombreDocente();
+            fila[6] = curso.getHorarioTexto();
+            fila[7] = formatoFecha.format(curso.getFechaInicio());
+            fila[8] = formatoFecha.format(curso.getFechaFin());
+            fila[9] = curso.getEstado();
+
+            modeloTabla.addRow(fila);
+        }
+
+        System.out.println("✓ Se cargaron " + lista.size() + " cursos en la tabla");
+    }
+
+    /**
+     * Limpiar tabla
+     */
+    private void limpiarTabla() {
+        while (modeloTabla.getRowCount() > 0) {
+            modeloTabla.removeRow(0);
+        }
+    }
+
+    private void configurarEfectosHover() {
+        // Color original de los botones
+        Color colorOriginalNuevo = btnNuevo.getBackground();
+        Color colorOriginalEditar = btnEditar.getBackground();
+        Color colorOriginalEliminar = btnEliminar.getBackground();
+        Color colorOriginalActualizar = btnActualizar.getBackground();
+        Color colorOriginalVolver = btnVolverPrincipal.getBackground();
+
+        Color colorHover = new Color(52, 152, 219); // Azul más claro
+
+        // Aplicar efecto a cada botón
+        aplicarEfectoHover(btnNuevo, colorOriginalNuevo, colorHover);
+        aplicarEfectoHover(btnEditar, colorOriginalEditar, colorHover);
+        aplicarEfectoHover(btnEliminar, colorOriginalEliminar, colorHover);
+        aplicarEfectoHover(btnActualizar, colorOriginalActualizar, colorHover);
+        aplicarEfectoHover(btnVolverPrincipal, colorOriginalVolver, colorHover);
+    }
+
+    private void aplicarEfectoHover(javax.swing.JButton boton, Color colorOriginal, Color colorHover) {
+        boton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                boton.setBackground(colorHover);
+                boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                boton.setBackground(colorOriginal);
+                boton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });;
+    }
+
+        /**
+         * This method is called from within the constructor to initialize the
+         * form. WARNING: Do NOT modify this code. The content of this method is
+         * always regenerated by the Form Editor.
+         */
+        @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        txtBuscar = new javax.swing.JTextField();
+        btnBuscar = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblCursos = new javax.swing.JTable();
+        btnVolverPrincipal = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
+        btnEditar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Malgun Gothic", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("GESTIÓN DE CURSOS");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 30, 440, 30));
+
+        jLabel3.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel3.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Asociación Privada de Patronato");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 10, 440, 20));
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("BUSCAR:");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 89, -1, -1));
+
+        txtBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBuscarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(99, 86, 495, -1));
+
+        btnBuscar.setBackground(new java.awt.Color(153, 255, 153));
+        btnBuscar.setForeground(new java.awt.Color(0, 0, 0));
+        btnBuscar.setText("BUSCAR");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(612, 78, 118, 39));
+
+        btnLimpiar.setBackground(new java.awt.Color(204, 204, 255));
+        btnLimpiar.setForeground(new java.awt.Color(0, 0, 0));
+        btnLimpiar.setText("LIMPIAR");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(748, 78, 118, 39));
+
+        tblCursos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Nombre Curso", "Nivel", "Duración", "Cupos", "Docente", "Horario", "Fecha Inicio", "Fecha Fin", "Estado"
+            }
+        ));
+        jScrollPane1.setViewportView(tblCursos);
+
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 130, 850, 370));
+
+        btnVolverPrincipal.setBackground(new java.awt.Color(255, 255, 0));
+        btnVolverPrincipal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnVolverPrincipal.setForeground(new java.awt.Color(0, 0, 0));
+        btnVolverPrincipal.setText("VOLVER AL MENÚ PRINCIPAL");
+        btnVolverPrincipal.setBorder(null);
+        btnVolverPrincipal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVolverPrincipalActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnVolverPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 580, 350, 40));
+
+        btnNuevo.setBackground(new java.awt.Color(0, 204, 51));
+        btnNuevo.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnNuevo.setForeground(new java.awt.Color(0, 0, 0));
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/addCurso.png"))); // NOI18N
+        btnNuevo.setText("Nuevo Curso");
+        btnNuevo.setBorder(null);
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnNuevo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 200, 60));
+
+        btnEditar.setBackground(new java.awt.Color(255, 204, 102));
+        btnEditar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnEditar.setForeground(new java.awt.Color(0, 0, 0));
+        btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/reportes.png"))); // NOI18N
+        btnEditar.setText("Editar");
+        btnEditar.setBorder(null);
+        btnEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 510, 200, 60));
+
+        btnEliminar.setBackground(new java.awt.Color(255, 255, 255));
+        btnEliminar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnEliminar.setForeground(new java.awt.Color(0, 0, 0));
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/inhabilitar.png"))); // NOI18N
+        btnEliminar.setText("Inhabilitar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 510, 190, 60));
+
+        btnActualizar.setBackground(new java.awt.Color(204, 204, 255));
+        btnActualizar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnActualizar.setForeground(new java.awt.Color(0, 0, 0));
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/actualizar.png"))); // NOI18N
+        btnActualizar.setText("Actualizar Tabla");
+        btnActualizar.setBorder(null);
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 510, 210, 60));
+
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 880, 637));
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void txtBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtBuscarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        String textoBusqueda = txtBuscar.getText().trim();
+
+        if (textoBusqueda.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Por favor ingrese un texto para buscar",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        limpiarTabla();
+
+        List<MODELO_Curso> lista = controlador.buscarPorNombre(textoBusqueda);
+
+        if (lista.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "No se encontraron cursos con ese criterio",
+                    "Información",
+                    JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+
+        for (MODELO_Curso curso : lista) {
+            Object[] fila = new Object[10];
+            fila[0] = curso.getIdCurso();
+            fila[1] = curso.getNombreCurso();
+            fila[2] = curso.getNivel();
+            fila[3] = curso.getDuracionMeses() + " meses";
+            fila[4] = curso.getCuposDisponibles();
+            fila[5] = curso.getNombreDocente();
+            fila[6] = curso.getHorarioTexto();
+            fila[7] = formatoFecha.format(curso.getFechaInicio());
+            fila[8] = formatoFecha.format(curso.getFechaFin());
+            fila[9] = curso.getEstado();
+
+            modeloTabla.addRow(fila);
+        }
+
+        System.out.println("✓ Búsqueda completada: " + lista.size() + " resultados");
+
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        txtBuscar.setText("");
+        cargarDatos();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
+    private void btnVolverPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverPrincipalActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+
+    }//GEN-LAST:event_btnVolverPrincipalActionPerformed
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        VISTA_FormularioCurso formulario = new VISTA_FormularioCurso(this, true, null, usuarioLogueado);
+        formulario.setVisible(true);
+
+        // Recargar datos después de cerrar el formulario
+        cargarDatos();
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
+
+        int filaSeleccionada = tblCursos.getSelectedRow();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Por favor seleccione un curso de la tabla",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Obtener ID del curso seleccionado
+        int idCurso = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+
+        // Buscar el curso completo
+        MODELO_Curso curso = controlador.buscarPorId(idCurso);
+
+        if (curso == null) {
+            JOptionPane.showMessageDialog(this,
+                    "Error al obtener los datos del curso",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Abrir formulario de edición
+        VISTA_FormularioCurso formulario = new VISTA_FormularioCurso(this, true, curso, usuarioLogueado);
+        formulario.setVisible(true);
+
+        // Recargar datos
+        cargarDatos();
+    }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        int filaSeleccionada = tblCursos.getSelectedRow();
+
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this,
+                    "Por favor seleccione un curso de la tabla",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Obtener datos del curso seleccionado
+        int idCurso = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
+        String nombreCurso = (String) modeloTabla.getValueAt(filaSeleccionada, 1);
+        String nivel = (String) modeloTabla.getValueAt(filaSeleccionada, 2);
+
+        // Confirmar eliminación
+        int opcion = JOptionPane.showConfirmDialog(this,
+                "¿Está seguro que desea eliminar el curso?\n\n"
+                + nombreCurso + " - " + nivel + "\n\n"
+                + "Esta acción cambiará el estado a INACTIVO",
+                "Confirmar Eliminación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+
+        if (opcion == JOptionPane.YES_OPTION) {
+            String resultado = controlador.eliminarCurso(idCurso);
+
+            if ("EXITO".equals(resultado)) {
+                JOptionPane.showMessageDialog(this,
+                        "Curso eliminado correctamente",
+                        "Éxito",
+                        JOptionPane.INFORMATION_MESSAGE);
+                cargarDatos();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                        resultado,
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        cargarDatos();
+        JOptionPane.showMessageDialog(this,
+                "Tabla actualizada correctamente",
+                "Información",
+                JOptionPane.INFORMATION_MESSAGE);
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnVolverPrincipal;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblCursos;
+    private javax.swing.JTextField txtBuscar;
+    // End of variables declaration//GEN-END:variables
+
+}
