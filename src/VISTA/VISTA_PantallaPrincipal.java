@@ -407,13 +407,8 @@ public class VISTA_PantallaPrincipal extends javax.swing.JFrame {
     private void btnGestionEstudiantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionEstudiantesActionPerformed
         // TODO add your handling code here:
         System.out.println("✓ Abriendo módulo de Estudiantes...");
-
-        JOptionPane.showMessageDialog(
-                this,
-                "Módulo de Gestión de Estudiantes\n(En desarrollo)",
-                "Información",
-                JOptionPane.INFORMATION_MESSAGE
-        );
+        VISTA_GestionEstudiantes ventana = new VISTA_GestionEstudiantes(usuarioLogueado);
+        ventana.setVisible(true);
     }//GEN-LAST:event_btnGestionEstudiantesActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
