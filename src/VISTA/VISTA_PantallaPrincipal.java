@@ -424,19 +424,11 @@ public class VISTA_PantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnReportesActionPerformed
 
     private void btnAccesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccesosActionPerformed
-        // TODO add your handling code here:
         System.out.println("✓ Abriendo módulo de Accesos...");
-
-        JOptionPane.showMessageDialog(
-                this,
-                "Módulo de Accesos Autorizados\n(En desarrollo)",
-                "Información",
-                JOptionPane.INFORMATION_MESSAGE
-        );
-
-        // Cuando crees la vista:
-        // VISTA_AccesosAutorizados ventana = new VISTA_AccesosAutorizados(usuarioLogueado);
-        // ventana.setVisible(true);
+    
+        VISTA_GestionAccesos ventana = new VISTA_GestionAccesos(usuarioLogueado);
+        ventana.setVisible(true);
+        
     }//GEN-LAST:event_btnAccesosActionPerformed
 
     /**
