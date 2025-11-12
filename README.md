@@ -30,8 +30,13 @@ Este proyecto fue desarrollado como parte del curso **Integrador I - Sistemas So
 - Gestión de cursos
 - Gestión de Docentes  
 - Asignación de matrículas  
-- Consulta y modificación de registros  
+- Consulta y modificación de matriculas/estudiantes  
 - Validaciones y reportes básicos
+
+## 🧮 Funcionalidades Pendientes
+
+- 🔐 Accesos Autorizados (gestión de usuarios del sistema)
+- 📄 Reportes y Constancias (generar PDFs)
 
 ---
 
