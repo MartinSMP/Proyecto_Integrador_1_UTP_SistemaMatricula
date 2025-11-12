@@ -1,0 +1,18 @@
+# Archivos compilados de Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Carpetas de compilación de NetBeans
+/build/
+/dist/
+/nbproject/private/
+
+# Archivos de configuración de IDE
+*.iml
+.vscode/
+
+# Archivos temporales / logs
+*.log
+.DS_Store
