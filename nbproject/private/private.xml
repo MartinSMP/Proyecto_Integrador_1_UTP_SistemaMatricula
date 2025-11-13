@@ -2,6 +2,18 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/MartinSoftware/Desktop/PROYECTO%20INTEGRADOR/NUEVO_PROYECTO_INTEGRADOR/Proyecto_INTEGRADOR_1/src/VISTA/VISTA_PantallaPrincipal.java</file>
+            <file>file:/C:/Users/MartinSoftware/Desktop/PROYECTO%20INTEGRADOR/NUEVO_PROYECTO_INTEGRADOR/Proyecto_INTEGRADOR_1/src/VISTA/VISTA_GestionDocentes.java</file>
+            <file>file:/C:/Users/MartinSoftware/Desktop/PROYECTO%20INTEGRADOR/NUEVO_PROYECTO_INTEGRADOR/Proyecto_INTEGRADOR_1/src/VISTA/VISTA_GestionCursos.java</file>
+            <file>file:/C:/Users/MartinSoftware/Desktop/PROYECTO%20INTEGRADOR/NUEVO_PROYECTO_INTEGRADOR/Proyecto_INTEGRADOR_1/src/config/ConexionBD.java</file>
+            <file>file:/C:/Users/MartinSoftware/Desktop/PROYECTO%20INTEGRADOR/NUEVO_PROYECTO_INTEGRADOR/Proyecto_INTEGRADOR_1/src/DAO/DAO_Curso.java</file>
+            <file>file:/C:/Users/MartinSoftware/Desktop/PROYECTO%20INTEGRADOR/NUEVO_PROYECTO_INTEGRADOR/Proyecto_INTEGRADOR_1/src/CONTROLADOR/CONTROLADOR_Curso.java</file>
+            <file>file:/C:/Users/MartinSoftware/Desktop/PROYECTO%20INTEGRADOR/NUEVO_PROYECTO_INTEGRADOR/Proyecto_INTEGRADOR_1/src/DAO/DAO_Horario.java</file>
+            <file>file:/C:/Users/MartinSoftware/Desktop/PROYECTO%20INTEGRADOR/NUEVO_PROYECTO_INTEGRADOR/Proyecto_INTEGRADOR_1/src/CONTROLADOR/CONTROLADOR_Usuario.java</file>
+            <file>file:/C:/Users/MartinSoftware/Desktop/PROYECTO%20INTEGRADOR/NUEVO_PROYECTO_INTEGRADOR/Proyecto_INTEGRADOR_1/src/DAO/DAO_Usuario.java</file>
+            <file>file:/C:/Users/MartinSoftware/Desktop/PROYECTO%20INTEGRADOR/NUEVO_PROYECTO_INTEGRADOR/Proyecto_INTEGRADOR_1/src/VISTA/VISTA_GestionAccesos.java</file>
+            <file>file:/C:/Users/MartinSoftware/Desktop/PROYECTO%20INTEGRADOR/NUEVO_PROYECTO_INTEGRADOR/Proyecto_INTEGRADOR_1/src/VISTA/VISTA_FormularioUsuario.java</file>
+        </group>
     </open-files>
 </project-private>

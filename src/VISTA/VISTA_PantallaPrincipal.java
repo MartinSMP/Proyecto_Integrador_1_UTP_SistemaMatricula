@@ -412,15 +412,10 @@ public class VISTA_PantallaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGestionEstudiantesActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
-        // TODO add your handling code here:
         System.out.println("✓ Abriendo módulo de Reportes...");
-
-        JOptionPane.showMessageDialog(
-                this,
-                "Módulo de Reportes y Constancias\n(En desarrollo)",
-                "Información",
-                JOptionPane.INFORMATION_MESSAGE
-        );
+    
+        VISTA_Reportes ventana = new VISTA_Reportes(this, true, usuarioLogueado);
+        ventana.setVisible(true);
     }//GEN-LAST:event_btnReportesActionPerformed
 
     private void btnAccesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccesosActionPerformed
