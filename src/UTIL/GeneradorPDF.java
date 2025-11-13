@@ -60,7 +60,7 @@ public class GeneradorPDF {
             contenido.setFont(FONT_NORMAL);
             contenido.setSpacingAfter(20);
             
-            contenido.add("La Academia de Belleza y Estética hace constar que el(la) estudiante:\n\n");
+            contenido.add("La Asociación Privada de Patronato hace constar que el(la) estudiante:\n\n");
             
             document.add(contenido);
             
@@ -122,7 +122,7 @@ public class GeneradorPDF {
             firma.setFont(FONT_BOLD);
             firma.add("_______________________________\n");
             firma.add("Dirección Académica\n");
-            firma.add("Academia de Belleza y Estética");
+            firma.add("Asoc. Priv. Patronato");
             document.add(firma);
             
             document.close();
