@@ -24,7 +24,7 @@ Este proyecto fue desarrollado como parte del curso **Integrador I - Sistemas So
 
 ---
 
-## 🧮 Funcionalidades Principales Hasta la Fecha 11/11/2025
+## 🧮 Funcionalidades Principales Implementadas Hasta la Fecha 13/11/2025
 
 - Registro de estudiantes  
 - Gestión de cursos
@@ -32,11 +32,9 @@ Este proyecto fue desarrollado como parte del curso **Integrador I - Sistemas So
 - Asignación de matrículas  
 - Consulta y modificación de matriculas/estudiantes  
 - Validaciones y reportes básicos
-
-## 🧮 Funcionalidades Pendientes
-
 - 🔐 Accesos Autorizados (gestión de usuarios del sistema)
 - 📄 Reportes y Constancias (generar PDFs)
+
 
 ---
 
