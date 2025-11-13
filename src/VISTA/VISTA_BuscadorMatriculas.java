@@ -27,18 +27,132 @@ public class VISTA_BuscadorMatriculas extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        jLabel7 = new javax.swing.JLabel();
+        txtDNI = new javax.swing.JTextField();
+        jSeparator4 = new javax.swing.JSeparator();
+        btnBuscarEstudiante = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        lblEstudiante = new javax.swing.JTextField();
+        lblCodigo = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblMatriculas = new javax.swing.JTable();
+        btnCancelar = new javax.swing.JButton();
+        btnSeleccionar = new javax.swing.JButton();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 659, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 577, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Malgun Gothic", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("BUSCAR MATRÍCULA");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, -1, -1));
+
+        jLabel3.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel3.setFont(new java.awt.Font("Malgun Gothic", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("Asociación Privada de Patronato");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 10, -1, -1));
+
+        jLabel6.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel6.setText("BUSCAR ESTUDIANTE");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, -1, -1));
+
+        jSeparator2.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 210, 10));
+
+        jLabel7.setFont(new java.awt.Font("Malgun Gothic", 0, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel7.setText("DNI DEL ESTUDIANTE:");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, -1, -1));
+
+        txtDNI.setBackground(new java.awt.Color(255, 255, 255));
+        txtDNI.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtDNI.setForeground(new java.awt.Color(0, 0, 0));
+        txtDNI.setBorder(null);
+        jPanel1.add(txtDNI, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 140, 190, -1));
+        jPanel1.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 160, 190, 20));
+
+        btnBuscarEstudiante.setBackground(new java.awt.Color(204, 255, 153));
+        btnBuscarEstudiante.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnBuscarEstudiante.setForeground(new java.awt.Color(0, 0, 0));
+        btnBuscarEstudiante.setText("BUSCAR");
+        jPanel1.add(btnBuscarEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 130, 150, 40));
+
+        jLabel8.setFont(new java.awt.Font("Malgun Gothic", 3, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel8.setText("ESTUDIANTE ENCONTRADO:");
+        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, -1, -1));
+
+        lblEstudiante.setBackground(new java.awt.Color(255, 255, 255));
+        lblEstudiante.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        lblEstudiante.setForeground(new java.awt.Color(0, 0, 0));
+        lblEstudiante.setBorder(null);
+        jPanel1.add(lblEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 180, 250, -1));
+
+        lblCodigo.setBackground(new java.awt.Color(255, 255, 255));
+        lblCodigo.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
+        lblCodigo.setForeground(new java.awt.Color(0, 0, 0));
+        lblCodigo.setBorder(null);
+        jPanel1.add(lblCodigo, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 200, 300, -1));
+
+        jLabel9.setFont(new java.awt.Font("Malgun Gothic", 3, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel9.setText("CODIGO ESTUDIANTIL:");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, -1, -1));
+
+        jLabel10.setFont(new java.awt.Font("Malgun Gothic", 1, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel10.setText("MATRÍCULAS ACTIVAS");
+        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, -1, -1));
+
+        jSeparator3.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparator3.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel1.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 280, 210, 10));
+
+        tblMatriculas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "Código Matrícula", "Curso", "Nivel", "Fecha"
+            }
+        ));
+        jScrollPane1.setViewportView(tblMatriculas);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 610, 250));
+
+        btnCancelar.setBackground(new java.awt.Color(255, 102, 102));
+        btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnCancelar.setForeground(new java.awt.Color(0, 0, 0));
+        btnCancelar.setText("CANCELAR");
+        jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 560, 220, 40));
+
+        btnSeleccionar.setBackground(new java.awt.Color(102, 153, 255));
+        btnSeleccionar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        btnSeleccionar.setForeground(new java.awt.Color(0, 0, 0));
+        btnSeleccionar.setText("SELECCIONAR MATRÍCULA");
+        jPanel1.add(btnSeleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 560, 220, 40));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 660, 640));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -86,5 +200,24 @@ public class VISTA_BuscadorMatriculas extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBuscarEstudiante;
+    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnSeleccionar;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JTextField lblCodigo;
+    private javax.swing.JTextField lblEstudiante;
+    private javax.swing.JTable tblMatriculas;
+    private javax.swing.JTextField txtDNI;
     // End of variables declaration//GEN-END:variables
 }
