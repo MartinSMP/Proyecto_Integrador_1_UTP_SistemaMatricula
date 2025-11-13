@@ -151,7 +151,7 @@ public class VISTA_Reportes extends javax.swing.JDialog {
         txtCodigoMatricula = new javax.swing.JTextField();
         jSeparator4 = new javax.swing.JSeparator();
         btnReporteMatriculas = new javax.swing.JButton();
-        btnBuscarMatricula = new javax.swing.JButton();
+        btnListaMatricula = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         cboCurso = new javax.swing.JComboBox<>();
         btnGenerarConstancia = new javax.swing.JButton();
@@ -163,6 +163,7 @@ public class VISTA_Reportes extends javax.swing.JDialog {
         jSeparator7 = new javax.swing.JSeparator();
         btnReporteCursos = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
+        btnBuscarMatricula = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -227,15 +228,15 @@ public class VISTA_Reportes extends javax.swing.JDialog {
         });
         jPanel1.add(btnReporteMatriculas, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 380, 300, 40));
 
-        btnBuscarMatricula.setBackground(new java.awt.Color(102, 204, 255));
-        btnBuscarMatricula.setForeground(new java.awt.Color(0, 0, 0));
-        btnBuscarMatricula.setText("BUSCAR");
-        btnBuscarMatricula.addActionListener(new java.awt.event.ActionListener() {
+        btnListaMatricula.setBackground(new java.awt.Color(153, 255, 153));
+        btnListaMatricula.setForeground(new java.awt.Color(0, 0, 0));
+        btnListaMatricula.setText("LISTA DE MATRICULAS");
+        btnListaMatricula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarMatriculaActionPerformed(evt);
+                btnListaMatriculaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnBuscarMatricula, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 220, 110, 40));
+        jPanel1.add(btnListaMatricula, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 180, 40));
 
         jLabel7.setFont(new java.awt.Font("Malgun Gothic", 0, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(51, 51, 51));
@@ -252,7 +253,7 @@ public class VISTA_Reportes extends javax.swing.JDialog {
                 btnGenerarConstanciaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnGenerarConstancia, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 220, 180, 40));
+        jPanel1.add(btnGenerarConstancia, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 300, 30));
 
         jSeparator5.setForeground(new java.awt.Color(204, 204, 204));
         jPanel1.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 290, 770, 10));
@@ -306,6 +307,16 @@ public class VISTA_Reportes extends javax.swing.JDialog {
         });
         jPanel1.add(btnCerrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 450, 280, 40));
 
+        btnBuscarMatricula.setBackground(new java.awt.Color(102, 204, 255));
+        btnBuscarMatricula.setForeground(new java.awt.Color(0, 0, 0));
+        btnBuscarMatricula.setText("BUSCAR");
+        btnBuscarMatricula.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarMatriculaActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnBuscarMatricula, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 200, 110, 40));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -324,41 +335,35 @@ public class VISTA_Reportes extends javax.swing.JDialog {
         this.dispose();        
     }//GEN-LAST:event_btnCerrarActionPerformed
 
-    private void btnBuscarMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarMatriculaActionPerformed
-        String codigoMatricula = txtCodigoMatricula.getText().trim();
+    private void btnListaMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaMatriculaActionPerformed
         
-        if (codigoMatricula.isEmpty()) {
+        // Abrir ventana buscadora
+        VISTA_BuscadorMatriculas buscador = new VISTA_BuscadorMatriculas(
+            (java.awt.Frame) javax.swing.SwingUtilities.getWindowAncestor(this), 
+            true
+        );
+        buscador.setVisible(true);
+
+        // Obtener código seleccionado
+        String codigoSeleccionado = buscador.getCodigoMatriculaSeleccionado();
+
+        if (codigoSeleccionado != null) {
+            // Llenar el campo automáticamente
+            txtCodigoMatricula.setText(codigoSeleccionado);
+
+            // Simular clic en buscar para validar
+            btnBuscarMatriculaActionPerformed(null);
+
             JOptionPane.showMessageDialog(this, 
-                "Por favor ingrese el código de matrícula", 
-                "Validación", 
-                JOptionPane.WARNING_MESSAGE);
-            txtCodigoMatricula.requestFocus();
-            return;
+                "Matrícula seleccionada: " + codigoSeleccionado + "\n" +
+                "Ya puede generar la constancia", 
+                "Matrícula Cargada", 
+                JOptionPane.INFORMATION_MESSAGE);
         }
-        
-        // Buscar matrícula
-        MODELO_Matricula matricula = controladorMatricula.buscarMatriculaPorCodigo(codigoMatricula);
-        
-        if (matricula == null) {
-            JOptionPane.showMessageDialog(this, 
-                "No se encontró ninguna matrícula con el código: " + codigoMatricula, 
-                "No encontrado", 
-                JOptionPane.WARNING_MESSAGE);
-            btnGenerarConstancia.setEnabled(false);
-            return;
-        }
-        
-        // Matrícula encontrada
-        JOptionPane.showMessageDialog(this, 
-            "Matrícula encontrada:\n\n" +
-            "Estudiante: " + matricula.getNombreEstudiante() + "\n" +
-            "Curso: " + matricula.getNombreCurso() + " - " + matricula.getNivelCurso() + "\n" +
-            "Estado: " + matricula.getEstado(), 
-            "Matrícula Encontrada", 
-            JOptionPane.INFORMATION_MESSAGE);
-        
-        btnGenerarConstancia.setEnabled(true);
-    }//GEN-LAST:event_btnBuscarMatriculaActionPerformed
+
+
+
+    }//GEN-LAST:event_btnListaMatriculaActionPerformed
 
     private void btnGenerarConstanciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarConstanciaActionPerformed
         // TODO add your handling code here:
@@ -565,6 +570,43 @@ public class VISTA_Reportes extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnReporteMatriculasActionPerformed
 
+    private void btnBuscarMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarMatriculaActionPerformed
+        // TODO add your handling code here:
+        String codigoMatricula = txtCodigoMatricula.getText().trim();
+        
+        if (codigoMatricula.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "Por favor ingrese el código de matrícula", 
+                "Validación", 
+                JOptionPane.WARNING_MESSAGE);
+            txtCodigoMatricula.requestFocus();
+            return;
+        }
+        
+        // Buscar matrícula
+        MODELO_Matricula matricula = controladorMatricula.buscarMatriculaPorCodigo(codigoMatricula);
+        
+        if (matricula == null) {
+            JOptionPane.showMessageDialog(this, 
+                "No se encontró ninguna matrícula con el código: " + codigoMatricula, 
+                "No encontrado", 
+                JOptionPane.WARNING_MESSAGE);
+            btnGenerarConstancia.setEnabled(false);
+            return;
+        }
+        
+        // Matrícula encontrada
+        JOptionPane.showMessageDialog(this, 
+            "Matrícula encontrada:\n\n" +
+            "Estudiante: " + matricula.getNombreEstudiante() + "\n" +
+            "Curso: " + matricula.getNombreCurso() + " - " + matricula.getNivelCurso() + "\n" +
+            "Estado: " + matricula.getEstado(), 
+            "Matrícula Encontrada", 
+            JOptionPane.INFORMATION_MESSAGE);
+        
+        btnGenerarConstancia.setEnabled(true);
+    }//GEN-LAST:event_btnBuscarMatriculaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -574,6 +616,7 @@ public class VISTA_Reportes extends javax.swing.JDialog {
     private javax.swing.JButton btnBuscarMatricula;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnGenerarConstancia;
+    private javax.swing.JButton btnListaMatricula;
     private javax.swing.JButton btnReporteCurso;
     private javax.swing.JButton btnReporteCursos;
     private javax.swing.JButton btnReporteMatriculas;

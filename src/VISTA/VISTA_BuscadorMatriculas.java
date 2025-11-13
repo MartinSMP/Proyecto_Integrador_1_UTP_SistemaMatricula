@@ -4,18 +4,110 @@
  */
 package VISTA;
 
+import CONTROLADOR.CONTROLADOR_Estudiante;
+import MODELO.MODELO_Estudiante;
+import MODELO.MODELO_Matricula;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.text.SimpleDateFormat;
+import java.util.List;
 /**
- *
+ * Ventana para buscar y seleccionar matrículas de estudiantes
  * @author MartinSoftware
  */
 public class VISTA_BuscadorMatriculas extends javax.swing.JDialog {
 
+    private CONTROLADOR_Estudiante controlador;
+    private DefaultTableModel modeloTabla;
+    private SimpleDateFormat formatoFecha;
+    private String codigoMatriculaSeleccionado;
+    private MODELO_Estudiante estudianteEncontrado;
+    
     /**
-     * Creates new form VISTA_BuscadorMatriculas
+     * Constructor
+     * @param parent ventana padre
+     * @param modal si es modal
      */
     public VISTA_BuscadorMatriculas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        
+        this.controlador = new CONTROLADOR_Estudiante();
+        this.formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        this.codigoMatriculaSeleccionado = null;
+        this.estudianteEncontrado = null;
+        
+        configurarVentana();
+        configurarTabla();
+    }
+    
+    /**
+     * Configurar ventana
+     */
+    private void configurarVentana() {
+        this.setLocationRelativeTo(null);
+        this.setTitle("Buscar Matrícula");
+        
+        lblEstudiante.setText("Estudiante: -");
+        lblCodigo.setText("Código: -");
+        
+        btnSeleccionar.setEnabled(false);
+    }
+    
+    /**
+     * Configurar tabla
+     */
+    private void configurarTabla() {
+        modeloTabla = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        
+        // Definir columnas
+        modeloTabla.addColumn("ID");
+        modeloTabla.addColumn("Código Matrícula");
+        modeloTabla.addColumn("Curso");
+        modeloTabla.addColumn("Nivel");
+        modeloTabla.addColumn("Fecha Matrícula");
+        
+        tblMatriculas.setModel(modeloTabla);
+        
+        // Ocultar columna ID
+        tblMatriculas.getColumnModel().getColumn(0).setMinWidth(0);
+        tblMatriculas.getColumnModel().getColumn(0).setMaxWidth(0);
+        tblMatriculas.getColumnModel().getColumn(0).setWidth(0);
+        
+        // Ajustar anchos
+        tblMatriculas.getColumnModel().getColumn(1).setPreferredWidth(120); // Código
+        tblMatriculas.getColumnModel().getColumn(2).setPreferredWidth(150); // Curso
+        tblMatriculas.getColumnModel().getColumn(3).setPreferredWidth(90);  // Nivel
+        tblMatriculas.getColumnModel().getColumn(4).setPreferredWidth(100); // Fecha
+        
+        // Evento de selección
+        tblMatriculas.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                btnSeleccionar.setEnabled(tblMatriculas.getSelectedRow() != -1);
+            }
+        });
+    }
+    
+    /**
+     * Limpiar tabla
+     */
+    private void limpiarTabla() {
+        while (modeloTabla.getRowCount() > 0) {
+            modeloTabla.removeRow(0);
+        }
+    }
+    
+    /**
+     * Obtener el código de matrícula seleccionado
+     * @return código de matrícula o null
+     */
+    public String getCodigoMatriculaSeleccionado() {
+        return codigoMatriculaSeleccionado;
     }
 
     /**
@@ -92,6 +184,11 @@ public class VISTA_BuscadorMatriculas extends javax.swing.JDialog {
         btnBuscarEstudiante.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnBuscarEstudiante.setForeground(new java.awt.Color(0, 0, 0));
         btnBuscarEstudiante.setText("BUSCAR");
+        btnBuscarEstudiante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarEstudianteActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnBuscarEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 130, 150, 40));
 
         jLabel8.setFont(new java.awt.Font("Malgun Gothic", 3, 14)); // NOI18N
@@ -144,12 +241,22 @@ public class VISTA_BuscadorMatriculas extends javax.swing.JDialog {
         btnCancelar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnCancelar.setForeground(new java.awt.Color(0, 0, 0));
         btnCancelar.setText("CANCELAR");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnCancelar, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 560, 220, 40));
 
         btnSeleccionar.setBackground(new java.awt.Color(102, 153, 255));
         btnSeleccionar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnSeleccionar.setForeground(new java.awt.Color(0, 0, 0));
         btnSeleccionar.setText("SELECCIONAR MATRÍCULA");
+        btnSeleccionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnSeleccionar, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 560, 220, 40));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 660, 640));
@@ -157,47 +264,111 @@ public class VISTA_BuscadorMatriculas extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VISTA_BuscadorMatriculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VISTA_BuscadorMatriculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VISTA_BuscadorMatriculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VISTA_BuscadorMatriculas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void btnBuscarEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarEstudianteActionPerformed
+        String dni = txtDNI.getText().trim();
+        
+        // Validar DNI
+        if (dni.isEmpty()) {
+            JOptionPane.showMessageDialog(this, 
+                "Por favor ingrese el DNI del estudiante", 
+                "Validación", 
+                JOptionPane.WARNING_MESSAGE);
+            txtDNI.requestFocus();
+            return;
         }
-        //</editor-fold>
+        
+        if (!dni.matches("\\d{8}")) {
+            JOptionPane.showMessageDialog(this, 
+                "El DNI debe tener 8 dígitos", 
+                "Validación", 
+                JOptionPane.WARNING_MESSAGE);
+            txtDNI.requestFocus();
+            return;
+        }
+        
+        // Buscar estudiante
+        estudianteEncontrado = controlador.buscarPorDocumento(dni);
+        
+        if (estudianteEncontrado == null) {
+            JOptionPane.showMessageDialog(this, 
+                "No se encontró ningún estudiante con DNI: " + dni, 
+                "No encontrado", 
+                JOptionPane.INFORMATION_MESSAGE);
+            
+            lblEstudiante.setText("Estudiante: -");
+            lblCodigo.setText("Código: -");
+            limpiarTabla();
+            btnSeleccionar.setEnabled(false);
+            return;
+        }
+        
+        // Mostrar datos del estudiante
+        lblEstudiante.setText("Estudiante: " + controlador.obtenerNombreCompleto(estudianteEncontrado));
+        lblCodigo.setText("Código: " + estudianteEncontrado.getCodigoEstudiantil());
+        
+        // Cargar matrículas activas
+        cargarMatriculasActivas(estudianteEncontrado.getIdEstudiante());
+    }//GEN-LAST:event_btnBuscarEstudianteActionPerformed
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                VISTA_BuscadorMatriculas dialog = new VISTA_BuscadorMatriculas(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+    private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
+        int filaSeleccionada = tblMatriculas.getSelectedRow();
+        
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(this, 
+                "Por favor seleccione una matrícula de la tabla", 
+                "Validación", 
+                JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        
+        // Obtener código de matrícula seleccionado
+        codigoMatriculaSeleccionado = (String) modeloTabla.getValueAt(filaSeleccionada, 1);
+        
+        System.out.println("✓ Matrícula seleccionada: " + codigoMatriculaSeleccionado);
+        
+        // Cerrar ventana
+        this.dispose();
+    }//GEN-LAST:event_btnSeleccionarActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        codigoMatriculaSeleccionado = null;
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    /**
+     * Cargar matrículas activas del estudiante
+     */
+    private void cargarMatriculasActivas(int idEstudiante) {
+        limpiarTabla();
+        
+        List<MODELO_Matricula> matriculas = controlador.obtenerHistorialMatriculas(idEstudiante);
+        
+        // Filtrar solo las activas
+        int activas = 0;
+        for (MODELO_Matricula m : matriculas) {
+            if ("ACTIVO".equals(m.getEstado())) {
+                Object[] fila = new Object[5];
+                fila[0] = m.getIdMatricula();
+                fila[1] = m.getCodigoMatricula();
+                fila[2] = m.getNombreCurso();
+                fila[3] = m.getNivelCurso();
+                fila[4] = formatoFecha.format(m.getFechaMatricula());
+                
+                modeloTabla.addRow(fila);
+                activas++;
             }
-        });
+        }
+        
+        if (activas == 0) {
+            JOptionPane.showMessageDialog(this, 
+                "El estudiante no tiene matrículas activas", 
+                "Información", 
+                JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            System.out.println("✓ Se cargaron " + activas + " matrículas activas");
+        }
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscarEstudiante;
