@@ -374,13 +374,13 @@ public class GeneradorPDF {
         membrete.setFont(FONT_SUBTITULO);
         membrete.setAlignment(Element.ALIGN_CENTER);
         membrete.setSpacingAfter(10);
-        membrete.add("ACADEMIA DE BELLEZA Y ESTÉTICA\n");
+        membrete.add("ASOCIACIÓN PRIVADA DE PATRONATO\n");
         
         Paragraph subtitulo = new Paragraph();
         subtitulo.setFont(FONT_SMALL);
         subtitulo.setAlignment(Element.ALIGN_CENTER);
         subtitulo.setSpacingAfter(20);
-        subtitulo.add("Formando profesionales en el arte de la belleza\n");
+        subtitulo.add("Formando profesionales con cursos cortos\n");
         subtitulo.add("Lima - Perú");
         
         document.add(membrete);
