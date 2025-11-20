@@ -49,7 +49,7 @@ public class VISTA_Reportes extends javax.swing.JDialog {
      */
     private void configurarVentana() {
         this.setLocationRelativeTo(null);
-        this.setTitle("Reportes y Constancias - Academia de Belleza");
+        this.setTitle("Gestión de Reportes y Constancias");
         btnGenerarConstancia.setEnabled(false);
     }
     

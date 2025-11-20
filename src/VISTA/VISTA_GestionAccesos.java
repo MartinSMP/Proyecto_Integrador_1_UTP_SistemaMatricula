@@ -6,6 +6,10 @@ package VISTA;
 
 import CONTROLADOR.CONTROLADOR_Usuario;
 import MODELO.MODELO_Usuario;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
@@ -30,6 +34,7 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
         this.controlador = new CONTROLADOR_Usuario();
         this.formatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm");
         configurarVentana();
+        configurarEfectosHover();
         configurarTabla();
         cargarDatos();
     }
@@ -39,7 +44,6 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
      */
     private void configurarVentana() {
         this.setLocationRelativeTo(null);
-        this.setTitle("Gestión de Accesos Autorizados - Academia de Belleza");
         btnEditar.setEnabled(false);
         btnEliminar.setEnabled(false);
     }
@@ -123,6 +127,40 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
             modeloTabla.removeRow(0);
         }
     }
+    
+    private void configurarEfectosHover() {
+        // Color original de los botones
+        Color colorOriginalNuevo = btnNuevo.getBackground();
+        Color colorOriginalEditar = btnEditar.getBackground();
+        Color colorOriginalEliminar = btnEliminar.getBackground();
+        Color colorOriginalActualizar = btnActualizar.getBackground();
+        Color colorOriginalVolver = btnVolverPrincipal.getBackground();
+
+        Color colorHover = new Color(52, 152, 219); // Azul más claro
+
+        // Aplicar efecto a cada botón
+        aplicarEfectoHover(btnNuevo, colorOriginalNuevo, colorHover);
+        aplicarEfectoHover(btnEditar, colorOriginalEditar, colorHover);
+        aplicarEfectoHover(btnEliminar, colorOriginalEliminar, colorHover);
+        aplicarEfectoHover(btnActualizar, colorOriginalActualizar, colorHover);
+        aplicarEfectoHover(btnVolverPrincipal, colorOriginalVolver, colorHover);
+    }
+
+    private void aplicarEfectoHover(javax.swing.JButton boton, Color colorOriginal, Color colorHover) {
+        boton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                boton.setBackground(colorHover);
+                boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                boton.setBackground(colorOriginal);
+                boton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -149,6 +187,7 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
         btnNuevo = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gestión de Usuarios");
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 

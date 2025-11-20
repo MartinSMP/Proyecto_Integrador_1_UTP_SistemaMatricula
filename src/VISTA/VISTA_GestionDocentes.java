@@ -7,6 +7,10 @@ import CONTROLADOR.CONTROLADOR_Docente;
 import VISTA.VISTA_FormularioDocente;
 import MODELO.MODELO_Docente;
 import MODELO.MODELO_Usuario;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
@@ -27,6 +31,7 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
         this.controlador = new CONTROLADOR_Docente();
         configurarVentana();
         configurarTabla();
+        configurarEfectosHover();
         cargarDatos();
     }
     private void configurarVentana() {
@@ -124,6 +129,39 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
         }
     }
     
+    private void configurarEfectosHover() {
+        // Color original de los botones
+        Color colorOriginalNuevo = btnNuevo.getBackground();
+        Color colorOriginalEditar = btnEditar.getBackground();
+        Color colorOriginalEliminar = btnEliminar.getBackground();
+        Color colorOriginalActualizar = btnActualizar.getBackground();
+        Color colorOriginalVolver = btnVolverPrincipal.getBackground();
+
+        Color colorHover = new Color(52, 152, 219); // Azul más claro
+
+        // Aplicar efecto a cada botón
+        aplicarEfectoHover(btnNuevo, colorOriginalNuevo, colorHover);
+        aplicarEfectoHover(btnEditar, colorOriginalEditar, colorHover);
+        aplicarEfectoHover(btnEliminar, colorOriginalEliminar, colorHover);
+        aplicarEfectoHover(btnActualizar, colorOriginalActualizar, colorHover);
+        aplicarEfectoHover(btnVolverPrincipal, colorOriginalVolver, colorHover);
+    }
+
+    private void aplicarEfectoHover(javax.swing.JButton boton, Color colorOriginal, Color colorHover) {
+        boton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                boton.setBackground(colorHover);
+                boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                boton.setBackground(colorOriginal);
+                boton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });;
+    }
 
     
     

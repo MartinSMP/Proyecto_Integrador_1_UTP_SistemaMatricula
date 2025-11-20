@@ -36,7 +36,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
      */
     private void configurarVentana() {
         this.setLocationRelativeTo(null);
-        this.setTitle("Gestión de Estudiantes - Academia de Belleza");
+        this.setTitle("Gestión de Estudiantes");
         btnEditar.setEnabled(false);
         btnHistorial.setEnabled(false);
         btnDarDeBaja.setEnabled(false);
@@ -161,6 +161,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         btnHistorial = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gestión de Estudiantes");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -292,7 +293,9 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 650, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();

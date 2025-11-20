@@ -226,6 +226,7 @@ public class VISTA_Matricula extends javax.swing.JFrame {
         btnCancelar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gestion de Matrícula");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
