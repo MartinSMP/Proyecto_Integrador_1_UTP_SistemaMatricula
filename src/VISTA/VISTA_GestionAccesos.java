@@ -14,17 +14,20 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import java.text.SimpleDateFormat;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
 
 /**
  *
  * @author MartinSoftware
  */
 public class VISTA_GestionAccesos extends javax.swing.JFrame {
+
     private MODELO_Usuario usuarioLogueado;
     private CONTROLADOR_Usuario controlador;
     private DefaultTableModel modeloTabla;
     private SimpleDateFormat formatoFecha;
-    
+
     /**
      * Constructor que recibe el usuario logueado
      */
@@ -38,7 +41,7 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
         configurarTabla();
         cargarDatos();
     }
-    
+
     /**
      * Configurar ventana
      */
@@ -47,7 +50,7 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
         btnEditar.setEnabled(false);
         btnEliminar.setEnabled(false);
     }
-    
+
     /**
      * Configurar modelo de la tabla
      */
@@ -58,7 +61,7 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
                 return false;
             }
         };
-        
+
         // Definir columnas
         modeloTabla.addColumn("ID");
         modeloTabla.addColumn("Username");
@@ -67,14 +70,14 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
         modeloTabla.addColumn("Estado");
         modeloTabla.addColumn("Fecha Creación");
         modeloTabla.addColumn("Último Acceso");
-        
+
         tblUsuarios.setModel(modeloTabla);
-        
+
         // Ocultar columna ID
         tblUsuarios.getColumnModel().getColumn(0).setMinWidth(0);
         tblUsuarios.getColumnModel().getColumn(0).setMaxWidth(0);
         tblUsuarios.getColumnModel().getColumn(0).setWidth(0);
-        
+
         // Ajustar anchos de columnas
         tblUsuarios.getColumnModel().getColumn(1).setPreferredWidth(120); // Username
         tblUsuarios.getColumnModel().getColumn(2).setPreferredWidth(200); // Nombre
@@ -82,7 +85,7 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
         tblUsuarios.getColumnModel().getColumn(4).setPreferredWidth(80);  // Estado
         tblUsuarios.getColumnModel().getColumn(5).setPreferredWidth(130); // Fecha Creación
         tblUsuarios.getColumnModel().getColumn(6).setPreferredWidth(130); // Último Acceso
-        
+
         // Evento de selección
         tblUsuarios.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -92,15 +95,15 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
             }
         });
     }
-    
+
     /**
      * Cargar datos en la tabla
      */
     private void cargarDatos() {
         limpiarTabla();
-        
+
         List<MODELO_Usuario> lista = controlador.listarTodos();
-        
+
         for (MODELO_Usuario usuario : lista) {
             Object[] fila = new Object[7];
             fila[0] = usuario.getIdUsuario();
@@ -108,17 +111,17 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
             fila[2] = usuario.getNombreCompleto();
             fila[3] = usuario.getRol();
             fila[4] = usuario.getEstado();
-            fila[5] = usuario.getFechaCreacion() != null ? 
-                     formatoFecha.format(usuario.getFechaCreacion()) : "";
-            fila[6] = usuario.getUltimoAcceso() != null ? 
-                     formatoFecha.format(usuario.getUltimoAcceso()) : "Nunca";
-            
+            fila[5] = usuario.getFechaCreacion() != null
+                    ? formatoFecha.format(usuario.getFechaCreacion()) : "";
+            fila[6] = usuario.getUltimoAcceso() != null
+                    ? formatoFecha.format(usuario.getUltimoAcceso()) : "Nunca";
+
             modeloTabla.addRow(fila);
         }
-        
+
         System.out.println("✓ Se cargaron " + lista.size() + " usuarios en la tabla");
     }
-    
+
     /**
      * Limpiar tabla
      */
@@ -127,7 +130,7 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
             modeloTabla.removeRow(0);
         }
     }
-    
+
     private void configurarEfectosHover() {
         // Color original de los botones
         Color colorOriginalNuevo = btnNuevo.getBackground();
@@ -135,31 +138,52 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
         Color colorOriginalEliminar = btnEliminar.getBackground();
         Color colorOriginalActualizar = btnActualizar.getBackground();
         Color colorOriginalVolver = btnVolverPrincipal.getBackground();
+        Color colorOriginalBuscar = btnBuscar.getBackground();
+        Color colorOriginalLimpiar = btnLimpiar.getBackground();
 
         Color colorHover = new Color(52, 152, 219); // Azul más claro
+        Color bordeHover = new Color(41, 128, 185); // Azul más oscuro
 
         // Aplicar efecto a cada botón
-        aplicarEfectoHover(btnNuevo, colorOriginalNuevo, colorHover);
-        aplicarEfectoHover(btnEditar, colorOriginalEditar, colorHover);
-        aplicarEfectoHover(btnEliminar, colorOriginalEliminar, colorHover);
-        aplicarEfectoHover(btnActualizar, colorOriginalActualizar, colorHover);
-        aplicarEfectoHover(btnVolverPrincipal, colorOriginalVolver, colorHover);
+        aplicarEfectoHover(btnNuevo, colorOriginalNuevo, colorHover, bordeHover);
+        aplicarEfectoHover(btnEditar, colorOriginalEditar, colorHover, bordeHover);
+        aplicarEfectoHover(btnEliminar, colorOriginalEliminar, colorHover, bordeHover);
+        aplicarEfectoHover(btnActualizar, colorOriginalActualizar, colorHover, bordeHover);
+        aplicarEfectoHover(btnVolverPrincipal, colorOriginalVolver, colorHover, bordeHover);
+
+        // Nuevos botones agregados
+        aplicarEfectoHover(btnBuscar, colorOriginalBuscar, colorHover, bordeHover);
+        aplicarEfectoHover(btnLimpiar, colorOriginalLimpiar, colorHover, bordeHover);
     }
 
-    private void aplicarEfectoHover(javax.swing.JButton boton, Color colorOriginal, Color colorHover) {
+    private void aplicarEfectoHover(javax.swing.JButton boton, Color colorOriginal, Color colorHover, Color bordeHover) {
+
+        // Asegurar que el botón respete los colores
+        boton.setOpaque(true);
+        boton.setBorderPainted(true);
+
+        // Guardar el borde original
+        Border bordeOriginal = boton.getBorder();
+
         boton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 boton.setBackground(colorHover);
                 boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+                // Borde moderno
+                boton.setBorder(BorderFactory.createLineBorder(bordeHover, 2, true));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 boton.setBackground(colorOriginal);
                 boton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+                // Restaurar borde original
+                boton.setBorder(bordeOriginal);
             }
-        });;
+        });
     }
 
     /**
@@ -220,8 +244,11 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
         jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(99, 86, 495, -1));
 
         btnBuscar.setBackground(new java.awt.Color(153, 255, 153));
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnBuscar.setForeground(new java.awt.Color(0, 0, 0));
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/lupa.png"))); // NOI18N
         btnBuscar.setText("BUSCAR");
+        btnBuscar.setBorder(null);
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
@@ -230,8 +257,11 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
         jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(612, 78, 118, 39));
 
         btnLimpiar.setBackground(new java.awt.Color(204, 204, 255));
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnLimpiar.setForeground(new java.awt.Color(0, 0, 0));
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/herramienta-borrador.png"))); // NOI18N
         btnLimpiar.setText("LIMPIAR");
+        btnLimpiar.setBorder(null);
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimpiarActionPerformed(evt);
@@ -259,6 +289,7 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
         btnActualizar.setForeground(new java.awt.Color(0, 0, 0));
         btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/actualizar.png"))); // NOI18N
         btnActualizar.setText("Actualizar Tabla");
+        btnActualizar.setBorder(null);
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarActionPerformed(evt);
@@ -271,6 +302,7 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
         btnEditar.setForeground(new java.awt.Color(0, 0, 0));
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/reportes.png"))); // NOI18N
         btnEditar.setText("Editar");
+        btnEditar.setBorder(null);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -294,6 +326,7 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
         btnVolverPrincipal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnVolverPrincipal.setForeground(new java.awt.Color(0, 0, 0));
         btnVolverPrincipal.setText("VOLVER AL MENÚ PRINCIPAL");
+        btnVolverPrincipal.setBorder(null);
         btnVolverPrincipal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVolverPrincipalActionPerformed(evt);
@@ -306,6 +339,7 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
         btnNuevo.setForeground(new java.awt.Color(0, 0, 0));
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/profesor.png"))); // NOI18N
         btnNuevo.setText("Nuevo Usuario");
+        btnNuevo.setBorder(null);
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoActionPerformed(evt);
@@ -324,19 +358,19 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         String textoBusqueda = txtBuscar.getText().trim();
-        
+
         if (textoBusqueda.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "Por favor ingrese un username para buscar", 
-                "Advertencia", 
-                JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Por favor ingrese un username para buscar",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         limpiarTabla();
-        
+
         MODELO_Usuario usuario = controlador.buscarPorUsername(textoBusqueda);
-        
+
         if (usuario != null) {
             Object[] fila = new Object[7];
             fila[0] = usuario.getIdUsuario();
@@ -344,19 +378,19 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
             fila[2] = usuario.getNombreCompleto();
             fila[3] = usuario.getRol();
             fila[4] = usuario.getEstado();
-            fila[5] = usuario.getFechaCreacion() != null ? 
-                     formatoFecha.format(usuario.getFechaCreacion()) : "";
-            fila[6] = usuario.getUltimoAcceso() != null ? 
-                     formatoFecha.format(usuario.getUltimoAcceso()) : "Nunca";
-            
+            fila[5] = usuario.getFechaCreacion() != null
+                    ? formatoFecha.format(usuario.getFechaCreacion()) : "";
+            fila[6] = usuario.getUltimoAcceso() != null
+                    ? formatoFecha.format(usuario.getUltimoAcceso()) : "Nunca";
+
             modeloTabla.addRow(fila);
-            
+
             System.out.println("✓ Usuario encontrado");
         } else {
-            JOptionPane.showMessageDialog(this, 
-                "No se encontró ningún usuario con ese username", 
-                "Información", 
-                JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "No se encontró ningún usuario con ese username",
+                    "Información",
+                    JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -368,94 +402,94 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         cargarDatos();
-        JOptionPane.showMessageDialog(this, 
-            "Tabla actualizada correctamente", 
-            "Información", 
-            JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this,
+                "Tabla actualizada correctamente",
+                "Información",
+                JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         int filaSeleccionada = tblUsuarios.getSelectedRow();
-        
+
         if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, 
-                "Por favor seleccione un usuario de la tabla", 
-                "Advertencia", 
-                JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Por favor seleccione un usuario de la tabla",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         // Obtener ID del usuario seleccionado
         int idUsuario = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
-        
+
         // Buscar el usuario completo
         MODELO_Usuario usuario = controlador.buscarPorId(idUsuario);
-        
+
         if (usuario == null) {
-            JOptionPane.showMessageDialog(this, 
-                "Error al obtener los datos del usuario", 
-                "Error", 
-                JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Error al obtener los datos del usuario",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         // Abrir formulario de edición
         VISTA_FormularioUsuario formulario = new VISTA_FormularioUsuario(this, true, usuario, usuarioLogueado);
         formulario.setVisible(true);
-        
+
         // Recargar datos
         cargarDatos();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         int filaSeleccionada = tblUsuarios.getSelectedRow();
-        
+
         if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, 
-                "Por favor seleccione un usuario de la tabla", 
-                "Advertencia", 
-                JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Por favor seleccione un usuario de la tabla",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         // Obtener datos del usuario seleccionado
         int idUsuario = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
         String username = (String) modeloTabla.getValueAt(filaSeleccionada, 1);
         String nombreCompleto = (String) modeloTabla.getValueAt(filaSeleccionada, 2);
-        
+
         // No permitir desactivar el usuario actual
         if (idUsuario == usuarioLogueado.getIdUsuario()) {
-            JOptionPane.showMessageDialog(this, 
-                "No puede desactivar su propio usuario", 
-                "Advertencia", 
-                JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "No puede desactivar su propio usuario",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         // Confirmar desactivación
-        int opcion = JOptionPane.showConfirmDialog(this, 
-            "¿Está seguro que desea desactivar al usuario?\n\n" + 
-            "Username: " + username + "\n" +
-            "Nombre: " + nombreCompleto + "\n\n" +
-            "Esta acción cambiará el estado a INACTIVO", 
-            "Confirmar Desactivación", 
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.WARNING_MESSAGE);
-        
+        int opcion = JOptionPane.showConfirmDialog(this,
+                "¿Está seguro que desea desactivar al usuario?\n\n"
+                + "Username: " + username + "\n"
+                + "Nombre: " + nombreCompleto + "\n\n"
+                + "Esta acción cambiará el estado a INACTIVO",
+                "Confirmar Desactivación",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+
         if (opcion == JOptionPane.YES_OPTION) {
             String resultado = controlador.eliminarUsuario(idUsuario);
-            
+
             if ("EXITO".equals(resultado)) {
-                JOptionPane.showMessageDialog(this, 
-                    "Usuario desactivado correctamente", 
-                    "Éxito", 
-                    JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        "Usuario desactivado correctamente",
+                        "Éxito",
+                        JOptionPane.INFORMATION_MESSAGE);
                 cargarDatos();
             } else {
-                JOptionPane.showMessageDialog(this, 
-                    resultado, 
-                    "Error", 
-                    JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        resultado,
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -470,7 +504,7 @@ public class VISTA_GestionAccesos extends javax.swing.JFrame {
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         VISTA_FormularioUsuario formulario = new VISTA_FormularioUsuario(this, true, null, usuarioLogueado);
         formulario.setVisible(true);
-        
+
         // Recargar datos
         cargarDatos();
     }//GEN-LAST:event_btnNuevoActionPerformed

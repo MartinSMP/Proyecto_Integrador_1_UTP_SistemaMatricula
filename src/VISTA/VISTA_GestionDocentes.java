@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package VISTA;
+
 import CONTROLADOR.CONTROLADOR_Docente;
 import VISTA.VISTA_FormularioDocente;
 import MODELO.MODELO_Docente;
@@ -14,14 +15,19 @@ import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
+
 /**
  *
  * @author MartinSoftware
  */
 public class VISTA_GestionDocentes extends javax.swing.JFrame {
+
     private MODELO_Usuario usuarioLogueado;
     private CONTROLADOR_Docente controlador;
     private DefaultTableModel modeloTabla;
+
     /**
      * Creates new form VISTA_GestionDocentes
      */
@@ -34,6 +40,7 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
         configurarEfectosHover();
         cargarDatos();
     }
+
     private void configurarVentana() {
         this.setLocationRelativeTo(null);
         this.setTitle("Gestión de Docentes");
@@ -41,7 +48,7 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
         btnEliminar.setEnabled(false);
         this.setResizable(false);
     }
-    
+
     /**
      * Configurar modelo de la tabla
      */
@@ -52,7 +59,7 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
                 return false; // Tabla no editable
             }
         };
-        
+
         // Definir columnas
         modeloTabla.addColumn("ID");
         modeloTabla.addColumn("Tipo Doc");
@@ -64,14 +71,14 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
         modeloTabla.addColumn("Email");
         modeloTabla.addColumn("Especialidad");
         modeloTabla.addColumn("Estado");
-        
+
         tblDocentes.setModel(modeloTabla);
-        
+
         // Ocultar columna ID
         tblDocentes.getColumnModel().getColumn(0).setMinWidth(0);
         tblDocentes.getColumnModel().getColumn(0).setMaxWidth(0);
         tblDocentes.getColumnModel().getColumn(0).setWidth(0);
-        
+
         // Ajustar anchos de columnas
         tblDocentes.getColumnModel().getColumn(1).setPreferredWidth(70);  // Tipo Doc
         tblDocentes.getColumnModel().getColumn(2).setPreferredWidth(100); // Nº Doc
@@ -82,7 +89,7 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
         tblDocentes.getColumnModel().getColumn(7).setPreferredWidth(150); // Email
         tblDocentes.getColumnModel().getColumn(8).setPreferredWidth(120); // Especialidad
         tblDocentes.getColumnModel().getColumn(9).setPreferredWidth(80);  // Estado
-        
+
         // Evento de selección en la tabla
         tblDocentes.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -92,15 +99,15 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
             }
         });
     }
-    
+
     /**
      * Cargar datos en la tabla
      */
     private void cargarDatos() {
         limpiarTabla();
-        
+
         List<MODELO_Docente> lista = controlador.listarTodos();
-        
+
         for (MODELO_Docente docente : lista) {
             Object[] fila = new Object[10];
             fila[0] = docente.getIdDocente();
@@ -113,13 +120,13 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
             fila[7] = docente.getEmail() != null ? docente.getEmail() : "";
             fila[8] = docente.getEspecialidad();
             fila[9] = docente.getEstado();
-            
+
             modeloTabla.addRow(fila);
         }
-        
+
         System.out.println("✓ Se cargaron " + lista.size() + " docentes en la tabla");
     }
-    
+
     /**
      * Limpiar tabla
      */
@@ -128,7 +135,7 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
             modeloTabla.removeRow(0);
         }
     }
-    
+
     private void configurarEfectosHover() {
         // Color original de los botones
         Color colorOriginalNuevo = btnNuevo.getBackground();
@@ -136,35 +143,54 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
         Color colorOriginalEliminar = btnEliminar.getBackground();
         Color colorOriginalActualizar = btnActualizar.getBackground();
         Color colorOriginalVolver = btnVolverPrincipal.getBackground();
+        Color colorOriginalBuscar = btnBuscar.getBackground();
+        Color colorOriginalLimpiar = btnLimpiar.getBackground();
 
         Color colorHover = new Color(52, 152, 219); // Azul más claro
+        Color bordeHover = new Color(41, 128, 185); // Azul más oscuro
 
         // Aplicar efecto a cada botón
-        aplicarEfectoHover(btnNuevo, colorOriginalNuevo, colorHover);
-        aplicarEfectoHover(btnEditar, colorOriginalEditar, colorHover);
-        aplicarEfectoHover(btnEliminar, colorOriginalEliminar, colorHover);
-        aplicarEfectoHover(btnActualizar, colorOriginalActualizar, colorHover);
-        aplicarEfectoHover(btnVolverPrincipal, colorOriginalVolver, colorHover);
+        aplicarEfectoHover(btnNuevo, colorOriginalNuevo, colorHover, bordeHover);
+        aplicarEfectoHover(btnEditar, colorOriginalEditar, colorHover, bordeHover);
+        aplicarEfectoHover(btnEliminar, colorOriginalEliminar, colorHover, bordeHover);
+        aplicarEfectoHover(btnActualizar, colorOriginalActualizar, colorHover, bordeHover);
+        aplicarEfectoHover(btnVolverPrincipal, colorOriginalVolver, colorHover, bordeHover);
+
+        // Nuevos botones agregados
+        aplicarEfectoHover(btnBuscar, colorOriginalBuscar, colorHover, bordeHover);
+        aplicarEfectoHover(btnLimpiar, colorOriginalLimpiar, colorHover, bordeHover);
     }
 
-    private void aplicarEfectoHover(javax.swing.JButton boton, Color colorOriginal, Color colorHover) {
+    private void aplicarEfectoHover(javax.swing.JButton boton, Color colorOriginal, Color colorHover, Color bordeHover) {
+
+        // Asegurar que el botón respete los colores
+        boton.setOpaque(true);
+        boton.setBorderPainted(true);
+
+        // Guardar el borde original
+        Border bordeOriginal = boton.getBorder();
+
         boton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 boton.setBackground(colorHover);
                 boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+                // Borde moderno
+                boton.setBorder(BorderFactory.createLineBorder(bordeHover, 2, true));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
                 boton.setBackground(colorOriginal);
                 boton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+                // Restaurar borde original
+                boton.setBorder(bordeOriginal);
             }
-        });;
+        });
     }
 
-    
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -221,8 +247,11 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
         jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(99, 86, 495, -1));
 
         btnBuscar.setBackground(new java.awt.Color(153, 255, 153));
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnBuscar.setForeground(new java.awt.Color(0, 0, 0));
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/lupa.png"))); // NOI18N
         btnBuscar.setText("BUSCAR");
+        btnBuscar.setBorder(null);
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
@@ -231,8 +260,11 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
         jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(612, 78, 118, 39));
 
         btnLimpiar.setBackground(new java.awt.Color(204, 204, 255));
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnLimpiar.setForeground(new java.awt.Color(0, 0, 0));
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/herramienta-borrador.png"))); // NOI18N
         btnLimpiar.setText("LIMPIAR");
+        btnLimpiar.setBorder(null);
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimpiarActionPerformed(evt);
@@ -260,6 +292,7 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
         btnActualizar.setForeground(new java.awt.Color(0, 0, 0));
         btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/actualizar.png"))); // NOI18N
         btnActualizar.setText("Actualizar Tabla");
+        btnActualizar.setBorder(null);
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarActionPerformed(evt);
@@ -272,6 +305,7 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
         btnEditar.setForeground(new java.awt.Color(0, 0, 0));
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/reportes.png"))); // NOI18N
         btnEditar.setText("Editar");
+        btnEditar.setBorder(null);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -284,6 +318,7 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
         btnEliminar.setForeground(new java.awt.Color(0, 0, 0));
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/inhabilitar.png"))); // NOI18N
         btnEliminar.setText("Inhabilitar");
+        btnEliminar.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
@@ -295,6 +330,7 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
         btnVolverPrincipal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnVolverPrincipal.setForeground(new java.awt.Color(0, 0, 0));
         btnVolverPrincipal.setText("VOLVER AL MENÚ PRINCIPAL");
+        btnVolverPrincipal.setBorder(null);
         btnVolverPrincipal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVolverPrincipalActionPerformed(evt);
@@ -307,6 +343,7 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
         btnNuevo.setForeground(new java.awt.Color(0, 0, 0));
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/profesor.png"))); // NOI18N
         btnNuevo.setText("Nuevo Docente");
+        btnNuevo.setBorder(null);
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoActionPerformed(evt);
@@ -328,50 +365,48 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    
     // ========================================
     //       EVENTOS DE LOS BOTONES
     // ========================================
-
-     /**
+    /**
      * Botón Nuevo Docente
      */
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
         VISTA_FormularioDocente formulario = new VISTA_FormularioDocente(this, true, null, usuarioLogueado);
         formulario.setVisible(true);
-        
+
         // Recargar datos después de cerrar el formulario
         cargarDatos();
     }//GEN-LAST:event_btnNuevoActionPerformed
-        
+
     /**
      * Botón Eliminar
      */
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
         int filaSeleccionada = tblDocentes.getSelectedRow();
-        
+
         if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, 
-                "Por favor seleccione un docente de la tabla", 
-                "Advertencia", 
-                JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Por favor seleccione un docente de la tabla",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         // Obtener datos del docente seleccionado
         int idDocente = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
         String nombres = (String) modeloTabla.getValueAt(filaSeleccionada, 3);
         String apellidoPaterno = (String) modeloTabla.getValueAt(filaSeleccionada, 4);
         String apellidoMaterno = (String) modeloTabla.getValueAt(filaSeleccionada, 5);
-        
+
         String nombreCompleto = nombres + " " + apellidoPaterno + " " + apellidoMaterno;
-        
+
         String estado = (String) modeloTabla.getValueAt(filaSeleccionada, 9);
-        
-        System.out.println("ESTADO: "+estado);
-        
+
+        System.out.println("ESTADO: " + estado);
+
         if (estado.equals("ACTIVO")) {
             // Confirmar eliminación
             int opcion = JOptionPane.showConfirmDialog(this,
@@ -398,7 +433,7 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
                             JOptionPane.ERROR_MESSAGE);
                 }
             }
-        }else{
+        } else {
             // Confirmar eliminación
             int opcion = JOptionPane.showConfirmDialog(this,
                     "¿Está seguro que desea habilitar al docente?\n\n"
@@ -425,20 +460,20 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
                 }
             }
         }
-        
-        
+
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
-     /**
+    /**
      * Botón Actualizar
      */
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         // TODO add your handling code here:
         cargarDatos();
-        JOptionPane.showMessageDialog(this, 
-            "Tabla actualizada correctamente", 
-            "Información", 
-            JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this,
+                "Tabla actualizada correctamente",
+                "Información",
+                JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     /**
@@ -447,33 +482,33 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
         int filaSeleccionada = tblDocentes.getSelectedRow();
-        
+
         if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, 
-                "Por favor seleccione un docente de la tabla", 
-                "Advertencia", 
-                JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Por favor seleccione un docente de la tabla",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         // Obtener ID del docente seleccionado
         int idDocente = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
-        
+
         // Buscar el docente completo
         MODELO_Docente docente = controlador.buscarPorId(idDocente);
-        
+
         if (docente == null) {
-            JOptionPane.showMessageDialog(this, 
-                "Error al obtener los datos del docente", 
-                "Error", 
-                JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Error al obtener los datos del docente",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         // Abrir formulario de edición
         VISTA_FormularioDocente formulario = new VISTA_FormularioDocente(this, true, docente, usuarioLogueado);
         formulario.setVisible(true);
-        
+
         // Recargar datos
         cargarDatos();
     }//GEN-LAST:event_btnEditarActionPerformed
@@ -485,7 +520,7 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
     private void btnVolverPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverPrincipalActionPerformed
         // TODO add your handling code here:
         this.dispose();
-        
+
     }//GEN-LAST:event_btnVolverPrincipalActionPerformed
 
     /**
@@ -503,27 +538,27 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         String textoBusqueda = txtBuscar.getText().trim();
-        
+
         if (textoBusqueda.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "Por favor ingrese un texto para buscar", 
-                "Advertencia", 
-                JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Por favor ingrese un texto para buscar",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         limpiarTabla();
-        
+
         List<MODELO_Docente> lista = controlador.buscarPorNombre(textoBusqueda);
-        
+
         if (lista.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "No se encontraron docentes con ese criterio", 
-                "Información", 
-                JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "No se encontraron docentes con ese criterio",
+                    "Información",
+                    JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        
+
         for (MODELO_Docente docente : lista) {
             Object[] fila = new Object[10];
             fila[0] = docente.getIdDocente();
@@ -536,10 +571,10 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
             fila[7] = docente.getEmail() != null ? docente.getEmail() : "";
             fila[8] = docente.getEspecialidad();
             fila[9] = docente.getEstado();
-            
+
             modeloTabla.addRow(fila);
         }
-        
+
         System.out.println("✓ Búsqueda completada: " + lista.size() + " resultados");
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -550,7 +585,6 @@ public class VISTA_GestionDocentes extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;

@@ -7,9 +7,15 @@ package VISTA;
 import CONTROLADOR.CONTROLADOR_Estudiante;
 import MODELO.MODELO_Estudiante;
 import MODELO.MODELO_Usuario;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
 /**
  *
  * @author MartinSoftware
@@ -28,6 +34,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         this.controlador = new CONTROLADOR_Estudiante();
         configurarVentana();
         configurarTabla();
+        configurarEfectosHover();
         cargarDatos();
     }
     
@@ -135,6 +142,59 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
             modeloTabla.removeRow(0);
         }
     }
+    
+    private void configurarEfectosHover() {
+        // Color original de los botones
+        Color colorOriginalNuevo = btnHistorial.getBackground();
+        Color colorOriginalEditar = btnEditar.getBackground();
+        Color colorOriginalEliminar = btnDarDeBaja.getBackground();
+        Color colorOriginalActualizar = btnActualizar.getBackground();
+        Color colorOriginalVolver = btnVolverPrincipal.getBackground();
+        Color colorOriginalBuscar = btnBuscar.getBackground();
+        Color colorOriginalLimpiar = btnLimpiar.getBackground();
+
+        Color colorHover = new Color(52, 152, 219); // Azul más claro
+        Color bordeHover = new Color(41, 128, 185); // Un azul un poco más oscuro
+
+        // Aplicar efecto a cada botón
+        aplicarEfectoHover(btnHistorial, colorOriginalNuevo, colorHover, bordeHover);
+        aplicarEfectoHover(btnEditar, colorOriginalEditar, colorHover, bordeHover);
+        aplicarEfectoHover(btnDarDeBaja, colorOriginalEliminar, colorHover, bordeHover);
+        aplicarEfectoHover(btnActualizar, colorOriginalActualizar, colorHover, bordeHover);
+        aplicarEfectoHover(btnVolverPrincipal, colorOriginalVolver, colorHover, bordeHover);
+        aplicarEfectoHover(btnBuscar, colorOriginalBuscar, colorHover, bordeHover);
+        aplicarEfectoHover(btnLimpiar, colorOriginalLimpiar, colorHover, bordeHover);
+    }
+
+    private void aplicarEfectoHover(javax.swing.JButton boton, Color colorOriginal, Color colorHover, Color bordeHover) {
+
+        // Asegurar que el botón respete los colores
+        boton.setOpaque(true);
+        boton.setBorderPainted(true);
+
+        // Guardar el borde original
+        Border bordeOriginal = boton.getBorder();
+
+        boton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                boton.setBackground(colorHover);
+                boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+                // Borde moderno
+                boton.setBorder(BorderFactory.createLineBorder(bordeHover, 2, true));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                boton.setBackground(colorOriginal);
+                boton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+                // Restaurar borde original
+                boton.setBorder(bordeOriginal);
+            }
+        });
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -192,8 +252,11 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         jPanel1.add(txtBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(99, 86, 495, -1));
 
         btnBuscar.setBackground(new java.awt.Color(153, 255, 153));
+        btnBuscar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnBuscar.setForeground(new java.awt.Color(0, 0, 0));
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/lupa.png"))); // NOI18N
         btnBuscar.setText("BUSCAR");
+        btnBuscar.setBorder(null);
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
@@ -202,8 +265,11 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         jPanel1.add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(612, 78, 118, 39));
 
         btnLimpiar.setBackground(new java.awt.Color(204, 204, 255));
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         btnLimpiar.setForeground(new java.awt.Color(0, 0, 0));
+        btnLimpiar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/herramienta-borrador.png"))); // NOI18N
         btnLimpiar.setText("LIMPIAR");
+        btnLimpiar.setBorder(null);
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLimpiarActionPerformed(evt);
@@ -231,6 +297,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         btnActualizar.setForeground(new java.awt.Color(0, 0, 0));
         btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/actualizar.png"))); // NOI18N
         btnActualizar.setText("Actualizar Tabla");
+        btnActualizar.setBorder(null);
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnActualizarActionPerformed(evt);
@@ -243,6 +310,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         btnEditar.setForeground(new java.awt.Color(0, 0, 0));
         btnEditar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/reportes.png"))); // NOI18N
         btnEditar.setText("Editar");
+        btnEditar.setBorder(null);
         btnEditar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEditarActionPerformed(evt);
@@ -255,6 +323,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         btnDarDeBaja.setForeground(new java.awt.Color(0, 0, 0));
         btnDarDeBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/inhabilitar.png"))); // NOI18N
         btnDarDeBaja.setText("Dar de baja");
+        btnDarDeBaja.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnDarDeBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDarDeBajaActionPerformed(evt);
@@ -266,6 +335,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         btnVolverPrincipal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnVolverPrincipal.setForeground(new java.awt.Color(0, 0, 0));
         btnVolverPrincipal.setText("VOLVER AL MENÚ PRINCIPAL");
+        btnVolverPrincipal.setBorder(null);
         btnVolverPrincipal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnVolverPrincipalActionPerformed(evt);
@@ -278,6 +348,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         btnHistorial.setForeground(new java.awt.Color(0, 0, 0));
         btnHistorial.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/students.png"))); // NOI18N
         btnHistorial.setText("Ver Historial");
+        btnHistorial.setBorder(null);
         btnHistorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHistorialActionPerformed(evt);
