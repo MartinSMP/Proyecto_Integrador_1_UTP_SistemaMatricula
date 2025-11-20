@@ -160,7 +160,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         btnVolverPrincipal = new javax.swing.JButton();
         btnHistorial = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());

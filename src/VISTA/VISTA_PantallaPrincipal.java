@@ -37,10 +37,6 @@ public class VISTA_PantallaPrincipal extends javax.swing.JFrame {
         iniciarReloj();
     }
 
-    private void configurarVentana() {
-        this.setLocationRelativeTo(null); // Centrar
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH); // Pantalla completa
-    }
 
     /**
      * Mostrar datos del usuario logueado
@@ -69,6 +65,51 @@ public class VISTA_PantallaPrincipal extends javax.swing.JFrame {
         // }
     }
 
+    /**
+     * Abrir ventana de módulo bloqueando la ventana principal
+     *
+     * @param ventana ventana del módulo a abrir
+     */
+    private void abrirModulo(javax.swing.JFrame ventana) {
+        // Deshabilitar ventana principal
+        this.setEnabled(false);
+
+        // MouseListener para traer ventana al frente
+        java.awt.event.MouseAdapter mouseAdapter = new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                if (!VISTA_PantallaPrincipal.this.isEnabled()) {
+                    ventana.toFront();
+                    ventana.requestFocus();
+                    // Opcional: hacer que la ventana "rebote" o parpadee
+                    try {
+                        ventana.setAlwaysOnTop(true);
+                        Thread.sleep(100);
+                        ventana.setAlwaysOnTop(false);
+                    } catch (InterruptedException ex) {
+                    }
+                }
+            }
+        };
+
+        this.addMouseListener(mouseAdapter);
+
+        // Listener para rehabilitar cuando cierre
+        ventana.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                VISTA_PantallaPrincipal.this.setEnabled(true);
+                VISTA_PantallaPrincipal.this.toFront();
+                VISTA_PantallaPrincipal.this.requestFocus();
+
+                // Remover el MouseListener
+                VISTA_PantallaPrincipal.this.removeMouseListener(mouseAdapter);
+            }
+        });
+
+        ventana.setVisible(true);
+    }
+
     private void iniciarReloj() {
         Timer timer = new Timer(1000, e -> {
             SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -76,6 +117,7 @@ public class VISTA_PantallaPrincipal extends javax.swing.JFrame {
         });
         timer.start();
     }
+
     private void configurarTooltips() {
         btnNuevaMatricula.setToolTipText("Registrar nueva matrícula de estudiante");
         btnGestionCursos.setToolTipText("Administrar cursos disponibles");
@@ -99,22 +141,44 @@ public class VISTA_PantallaPrincipal extends javax.swing.JFrame {
         aplicarEfectoHover(btnReportes, colorOriginal, colorHover);
         aplicarEfectoHover(btnAccesos, colorOriginalAcceso, colorHover);
     }
-    
+
     private void aplicarEfectoHover(javax.swing.JButton boton, Color colorOriginal, Color colorHover) {
-    boton.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            boton.setBackground(colorHover);
-            boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        boton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                boton.setBackground(colorHover);
+                boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                boton.setBackground(colorOriginal);
+                boton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+
+    }
+    
+    private void cerrarSesion(){
+        int opcion = JOptionPane.showConfirmDialog(
+                this,
+                "¿Está seguro que desea cerrar sesión?",
+                "Confirmar Cierre de Sesión",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE
+        );
+
+        if (opcion == JOptionPane.YES_OPTION) {
+            System.out.println("✓ Cerrando sesión de: " + usuarioLogueado.getUsername());
+
+            // Cerrar ventana actual
+            this.dispose();
+
+            // Abrir nuevamente el Login
+            VISTA_Login login = new VISTA_Login();
+            login.setVisible(true);
         }
-        
-        @Override
-        public void mouseExited(MouseEvent e) {
-            boton.setBackground(colorOriginal);
-            boton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-        }
-    });
-}
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -361,24 +425,7 @@ public class VISTA_PantallaPrincipal extends javax.swing.JFrame {
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
         // TODO add your handling code here:
-        int opcion = JOptionPane.showConfirmDialog(
-                this,
-                "¿Está seguro que desea cerrar sesión?",
-                "Confirmar Cierre de Sesión",
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.QUESTION_MESSAGE
-        );
-
-        if (opcion == JOptionPane.YES_OPTION) {
-            System.out.println("✓ Cerrando sesión de: " + usuarioLogueado.getUsername());
-
-            // Cerrar ventana actual
-            this.dispose();
-
-            // Abrir nuevamente el Login
-            VISTA_Login login = new VISTA_Login();
-            login.setVisible(true);
-        }
+        cerrarSesion();
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     private void btnNuevaMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaMatriculaActionPerformed
@@ -386,45 +433,46 @@ public class VISTA_PantallaPrincipal extends javax.swing.JFrame {
         System.out.println("✓ Abriendo módulo de Matrícula...");
 
         VISTA_Matricula ventana = new VISTA_Matricula(usuarioLogueado);
-        ventana.setVisible(true);
+        abrirModulo(ventana);
     }//GEN-LAST:event_btnNuevaMatriculaActionPerformed
 
     private void btnGestionCursosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionCursosActionPerformed
         System.out.println("✓ Abriendo módulo de Cursos...");
-    
+
         VISTA_GestionCursos ventana = new VISTA_GestionCursos(usuarioLogueado);
-        ventana.setVisible(true);
+        abrirModulo(ventana);
     }//GEN-LAST:event_btnGestionCursosActionPerformed
 
     private void btnGestionDocentesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionDocentesActionPerformed
         // TODO add your handling code here:
-                System.out.println("✓ Abriendo módulo de Docentes...");
-    
+        System.out.println("✓ Abriendo módulo de Docentes...");
+
         // Reemplaza el mensaje temporal con esto:
         VISTA_GestionDocentes ventana = new VISTA_GestionDocentes(usuarioLogueado);
-        ventana.setVisible(true);
+        abrirModulo(ventana);
     }//GEN-LAST:event_btnGestionDocentesActionPerformed
 
     private void btnGestionEstudiantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionEstudiantesActionPerformed
         // TODO add your handling code here:
         System.out.println("✓ Abriendo módulo de Estudiantes...");
         VISTA_GestionEstudiantes ventana = new VISTA_GestionEstudiantes(usuarioLogueado);
-        ventana.setVisible(true);
+        abrirModulo(ventana);
     }//GEN-LAST:event_btnGestionEstudiantesActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
         System.out.println("✓ Abriendo módulo de Reportes...");
-    
+
         VISTA_Reportes ventana = new VISTA_Reportes(this, true, usuarioLogueado);
         ventana.setVisible(true);
     }//GEN-LAST:event_btnReportesActionPerformed
 
     private void btnAccesosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAccesosActionPerformed
         System.out.println("✓ Abriendo módulo de Accesos...");
-    
+
         VISTA_GestionAccesos ventana = new VISTA_GestionAccesos(usuarioLogueado);
         ventana.setVisible(true);
-        
+        abrirModulo(ventana);
+
     }//GEN-LAST:event_btnAccesosActionPerformed
 
     /**
