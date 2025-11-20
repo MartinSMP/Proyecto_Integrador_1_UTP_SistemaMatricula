@@ -10,6 +10,10 @@ import MODELO.MODELO_Usuario;
 import javax.swing.JOptionPane;
 import VISTA.VISTA_PantallaPrincipal;
 import java.awt.event.KeyEvent;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  *
@@ -26,6 +30,7 @@ public class VISTA_Login extends javax.swing.JFrame {
     public VISTA_Login() {
         initComponents();
         this.controlador = new CONTROLADOR_Login(); // ⭐ INICIALIZAR AQUÍ
+        configurarEfectosHover();
         configurarVentana();
     }
 
@@ -83,6 +88,35 @@ public class VISTA_Login extends javax.swing.JFrame {
         VISTA_PantallaPrincipal pantallaPrincipal = new VISTA_PantallaPrincipal(usuarioLogueado);
         pantallaPrincipal.setVisible(true);
     }
+    
+    private void configurarEfectosHover() { // Color original de los botones
+        Color colorOriginalNuevo = btnIngresar.getBackground();
+        Color colorOriginalEditar = btnSalir.getBackground();
+        
+        Color colorHover = new Color(52, 152, 219);
+        // Azul más claro // Aplicar efecto a cada botón
+        aplicarEfectoHover(btnIngresar, colorOriginalNuevo, colorHover);
+        aplicarEfectoHover(btnSalir, colorOriginalEditar, colorHover);
+        
+}
+
+    private void aplicarEfectoHover(javax.swing.JButton boton, Color colorOriginal, Color colorHover) {
+        boton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                boton.setBackground(colorHover);
+                boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                boton.setBackground(colorOriginal);
+                boton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            }
+        });
+        
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -112,6 +146,7 @@ public class VISTA_Login extends javax.swing.JFrame {
         lblMensaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Iniciar Sesión - Sistema Digital de Matrícula");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
 
@@ -219,10 +254,10 @@ public class VISTA_Login extends javax.swing.JFrame {
         });
         fondo.add(btnIngresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 310, 270, 50));
 
-        jLabel1.setFont(new java.awt.Font("Arial", 2, 12)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Arial", 3, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Proyecto como parte del Curso Integrador 1 - Sistemas | Software");
-        fondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 470, 360, -1));
+        fondo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 470, 380, -1));
 
         jLabel2.setFont(new java.awt.Font("Malgun Gothic", 1, 24)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -237,7 +272,7 @@ public class VISTA_Login extends javax.swing.JFrame {
         fondo.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 430, 20));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/logo utp.jpg"))); // NOI18N
-        fondo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 460, 40, 40));
+        fondo.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, 40, 40));
         fondo.add(lblMensaje, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 286, 310, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
