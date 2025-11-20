@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-11-2025 a las 00:12:24
+-- Tiempo de generación: 20-11-2025 a las 22:34:55
 -- Versión del servidor: 10.4.13-MariaDB
 -- Versión de PHP: 7.4.7
 
@@ -48,7 +48,8 @@ CREATE TABLE `cursos` (
 
 INSERT INTO `cursos` (`id_curso`, `nombre_curso`, `nivel`, `descripcion`, `duracion_meses`, `cupos_disponibles`, `id_horario`, `id_docente`, `fecha_inicio`, `fecha_fin`, `estado`, `fecha_creacion`) VALUES
 (1, 'Barbería proxsd', 'INTERMEDIO', 'nose', 2, 9, 5, 1, '2025-10-27', '2025-12-27', 'ACTIVO', '2025-10-23 19:59:31'),
-(2, 'Barberia', 'BASICO', 'asdsad', 2, 9, 1, 1, '2025-10-26', '2025-12-26', 'ACTIVO', '2025-10-23 20:39:18');
+(2, 'Barberia', 'BASICO', 'asdsad', 2, 9, 1, 1, '2025-10-26', '2025-12-26', 'ACTIVO', '2025-10-23 20:39:18'),
+(3, 'Comestología', 'INTERMEDIO', '', 4, 20, 4, 2, '2025-11-17', '2026-03-23', 'ACTIVO', '2025-11-12 22:12:20');
 
 -- --------------------------------------------------------
 
@@ -109,7 +110,7 @@ CREATE TABLE `estudiantes` (
 --
 
 INSERT INTO `estudiantes` (`id_estudiante`, `codigo_estudiantil`, `tipo_documento`, `numero_documento`, `nombres`, `apellido_paterno`, `apellido_materno`, `fecha_nacimiento`, `edad`, `sexo`, `telefono`, `email`, `direccion`, `estado`, `fecha_registro`) VALUES
-(1, 'EST-2025-001', 'DNI', '72491885', 'Martín Sebastian', 'Martinez', 'Palacios', '2003-05-30', 22, 'M', '944676744', NULL, 'Avenida Daniel Alcides Carrion', 'ACTIVO', '2025-11-11 22:21:15');
+(1, 'EST-2025-001', 'DNI', '72491885', 'Martín Sebastian', 'Martinez', 'Palacios', '2003-05-30', 22, 'M', '944676744', 'martin@gmail.com', 'Avenida Daniel Alcides Carrion', 'ACTIVO', '2025-11-11 22:21:15');
 
 -- --------------------------------------------------------
 
@@ -193,8 +194,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `username`, `password`, `nombre_completo`, `rol`, `estado`, `fecha_creacion`, `ultimo_acceso`) VALUES
-(1, 'admin', 'admin123', 'Administrador del Sistema', 'ADMINISTRADOR', 'ACTIVO', '2025-10-21 02:52:14', '2025-11-11 17:20:15'),
-(2, 'recepcion', 'recep123', 'Usuario Recepción', 'RECEPCIONISTA', 'ACTIVO', '2025-10-21 02:52:14', NULL);
+(1, 'admin', 'admin123', 'Administrador del Sistema', 'ADMINISTRADOR', 'ACTIVO', '2025-10-21 02:52:14', '2025-11-20 16:32:47'),
+(2, 'recepcion', 'recep123', 'Usuario Recepción', 'RECEPCIONISTA', 'ACTIVO', '2025-10-21 02:52:14', '2025-11-12 16:52:36'),
+(3, 'martin', 'admin123', 'Desarrollador', 'ADMINISTRADOR', 'ACTIVO', '2025-11-12 21:54:41', '2025-11-12 16:56:06');
 
 -- --------------------------------------------------------
 
@@ -343,7 +345,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `docentes`
@@ -373,7 +375,7 @@ ALTER TABLE `matriculas`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Restricciones para tablas volcadas
