@@ -1,7 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
+
 package VISTA;
 
 import CONTROLADOR.CONTROLADOR_Curso;
@@ -29,6 +27,7 @@ public class VISTA_GestionCursos extends javax.swing.JFrame {
     private CONTROLADOR_Curso controlador;
     private DefaultTableModel modeloTabla;
     private SimpleDateFormat formatoFecha;
+    private boolean modoEdicion;
 
     /**
      * Constructor que recibe el usuario logueado
@@ -49,7 +48,7 @@ public class VISTA_GestionCursos extends javax.swing.JFrame {
      */
     private void configurarVentana() {
         this.setLocationRelativeTo(null);
-        this.setTitle("Gestión de Cursos - Academia de Belleza");
+        this.setTitle("Gestión de Cursos");
         btnEditar.setEnabled(false);
         btnEliminar.setEnabled(false);
     }

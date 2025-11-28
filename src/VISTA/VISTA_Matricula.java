@@ -101,10 +101,10 @@ public class VISTA_Matricula extends javax.swing.JFrame {
         MODELO_Curso cursoSeleccionado = listaCursos.get(index - 1);
         
         // Mostrar detalles
-        lblNivel.setText("Nivel: " + cursoSeleccionado.getNivel());
-        lblDocente.setText("Docente: " + cursoSeleccionado.getNombreDocente());
-        lblHorario.setText("Horario: " + cursoSeleccionado.getHorarioTexto());
-        lblCupos.setText("Cupos disponibles: " + cursoSeleccionado.getCuposDisponibles());
+        lblNivel.setText(cursoSeleccionado.getNivel());
+        lblDocente.setText(cursoSeleccionado.getNombreDocente());
+        lblHorario.setText(cursoSeleccionado.getHorarioTexto());
+        lblCupos.setText(cursoSeleccionado.getCuposDisponibles()+" cupos");
         
         // Verificar si tiene cupos
         if (cursoSeleccionado.getCuposDisponibles() <= 0) {

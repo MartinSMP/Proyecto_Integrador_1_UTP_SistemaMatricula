@@ -8,12 +8,18 @@ import CONTROLADOR.CONTROLADOR_Matricula;
 import CONTROLADOR.CONTROLADOR_Curso;
 import MODELO.*;
 import UTIL.GeneradorPDF;
+import java.awt.Color;
+import java.awt.Cursor;
 import javax.swing.JOptionPane;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.util.List;
 import java.awt.Desktop;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.BorderFactory;
+import javax.swing.border.Border;
 
 /**
  * Ventana para generar reportes y constancias en PDF
@@ -39,7 +45,7 @@ public class VISTA_Reportes extends javax.swing.JDialog {
         this.usuarioLogueado = usuario;
         this.controladorMatricula = new CONTROLADOR_Matricula();
         this.controladorCurso = new CONTROLADOR_Curso();
-        
+        configurarEfectosHover();
         configurarVentana();
         cargarCursos();
     }
@@ -53,6 +59,59 @@ public class VISTA_Reportes extends javax.swing.JDialog {
         btnGenerarConstancia.setEnabled(false);
     }
     
+    
+    private void configurarEfectosHover() {
+        // Color original de los botones
+        Color colorOriginalListaMatricula = btnListaMatricula.getBackground();
+        Color colorOriginalBuscarMatricula = btnBuscarMatricula.getBackground();
+        Color colorOriginalGenerarConstancia = btnGenerarConstancia.getBackground();
+        Color colorOriginalReporteCurso = btnReporteCurso.getBackground();
+        Color colorOriginalReporteCursos = btnReporteCursos.getBackground();
+        Color colorOriginalReporteMatriculas = btnReporteMatriculas.getBackground();
+        Color colorOriginalCerrar = btnCerrar.getBackground();
+
+        Color colorHover = new Color(52, 152, 219); // Azul más claro
+        Color bordeHover = new Color(41, 128, 185); // Azul más oscuro
+
+        // Aplicar efecto a cada botón
+        aplicarEfectoHover(btnListaMatricula, colorOriginalListaMatricula, colorHover, bordeHover);
+        aplicarEfectoHover(btnBuscarMatricula, colorOriginalBuscarMatricula, colorHover, bordeHover);
+        aplicarEfectoHover(btnGenerarConstancia, colorOriginalGenerarConstancia, colorHover, bordeHover);
+        aplicarEfectoHover(btnReporteCurso, colorOriginalReporteCurso, colorHover, bordeHover);
+        aplicarEfectoHover(btnReporteCursos, colorOriginalReporteCursos, colorHover, bordeHover);
+        aplicarEfectoHover(btnReporteMatriculas, colorOriginalReporteMatriculas, colorHover, bordeHover);
+        aplicarEfectoHover(btnCerrar, colorOriginalCerrar, colorHover, bordeHover);
+    }
+
+    private void aplicarEfectoHover(javax.swing.JButton boton, Color colorOriginal, Color colorHover, Color bordeHover) {
+
+        // Asegurar que el botón respete los colores
+        boton.setOpaque(true);
+        boton.setBorderPainted(true);
+
+        // Guardar el borde original
+        Border bordeOriginal = boton.getBorder();
+
+        boton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                boton.setBackground(colorHover);
+                boton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+                // Borde moderno
+                boton.setBorder(BorderFactory.createLineBorder(bordeHover, 2, true));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                boton.setBackground(colorOriginal);
+                boton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+
+                // Restaurar borde original
+                boton.setBorder(bordeOriginal);
+            }
+        });
+    }
     /**
      * Cargar cursos en el ComboBox
      */
@@ -221,6 +280,7 @@ public class VISTA_Reportes extends javax.swing.JDialog {
         btnReporteMatriculas.setBackground(new java.awt.Color(255, 255, 153));
         btnReporteMatriculas.setForeground(new java.awt.Color(0, 0, 0));
         btnReporteMatriculas.setText("GENERAR REPORTE GENERAL");
+        btnReporteMatriculas.setBorder(null);
         btnReporteMatriculas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReporteMatriculasActionPerformed(evt);
@@ -231,6 +291,7 @@ public class VISTA_Reportes extends javax.swing.JDialog {
         btnListaMatricula.setBackground(new java.awt.Color(153, 255, 153));
         btnListaMatricula.setForeground(new java.awt.Color(0, 0, 0));
         btnListaMatricula.setText("LISTA DE MATRICULAS");
+        btnListaMatricula.setBorder(null);
         btnListaMatricula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnListaMatriculaActionPerformed(evt);
@@ -248,6 +309,7 @@ public class VISTA_Reportes extends javax.swing.JDialog {
         btnGenerarConstancia.setBackground(new java.awt.Color(255, 153, 153));
         btnGenerarConstancia.setForeground(new java.awt.Color(0, 0, 0));
         btnGenerarConstancia.setText("GENERAR CONSTANCIA");
+        btnGenerarConstancia.setBorder(null);
         btnGenerarConstancia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarConstanciaActionPerformed(evt);
@@ -270,6 +332,7 @@ public class VISTA_Reportes extends javax.swing.JDialog {
         btnReporteCurso.setBackground(new java.awt.Color(204, 255, 153));
         btnReporteCurso.setForeground(new java.awt.Color(0, 0, 0));
         btnReporteCurso.setText("GENERAR REPORTE");
+        btnReporteCurso.setBorder(null);
         btnReporteCurso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReporteCursoActionPerformed(evt);
@@ -289,6 +352,7 @@ public class VISTA_Reportes extends javax.swing.JDialog {
         btnReporteCursos.setBackground(new java.awt.Color(153, 153, 255));
         btnReporteCursos.setForeground(new java.awt.Color(0, 0, 0));
         btnReporteCursos.setText("GENERAR LISTADO");
+        btnReporteCursos.setBorder(null);
         btnReporteCursos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReporteCursosActionPerformed(evt);
@@ -300,6 +364,7 @@ public class VISTA_Reportes extends javax.swing.JDialog {
         btnCerrar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnCerrar.setForeground(new java.awt.Color(0, 0, 0));
         btnCerrar.setText("CANCELAR");
+        btnCerrar.setBorder(null);
         btnCerrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCerrarActionPerformed(evt);
@@ -310,6 +375,7 @@ public class VISTA_Reportes extends javax.swing.JDialog {
         btnBuscarMatricula.setBackground(new java.awt.Color(102, 204, 255));
         btnBuscarMatricula.setForeground(new java.awt.Color(0, 0, 0));
         btnBuscarMatricula.setText("BUSCAR");
+        btnBuscarMatricula.setBorder(null);
         btnBuscarMatricula.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarMatriculaActionPerformed(evt);

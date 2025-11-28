@@ -56,8 +56,11 @@ public class VISTA_FormularioCurso extends javax.swing.JDialog {
         
         if (modoEdicion) {
             this.setTitle("Editar Curso");
+            jLabel2.setText("EDITAR CURSO");  // ✅ CORRECTO
+            btnGuardar.setText("GUARDAR CAMBIOS");
         } else {
             this.setTitle("Nuevo Curso");
+            jLabel2.setText("REGISTRO DE CURSO");  // ✅ CORRECTO
         }
     }
     

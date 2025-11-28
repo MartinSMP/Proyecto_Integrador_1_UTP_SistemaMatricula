@@ -48,8 +48,6 @@ public class VISTA_BuscadorMatriculas extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
         this.setTitle("Buscar Matrícula");
         
-        lblEstudiante.setText("Estudiante: -");
-        lblCodigo.setText("Código: -");
         
         btnSeleccionar.setEnabled(false);
     }
@@ -303,8 +301,8 @@ public class VISTA_BuscadorMatriculas extends javax.swing.JDialog {
         }
         
         // Mostrar datos del estudiante
-        lblEstudiante.setText("Estudiante: " + controlador.obtenerNombreCompleto(estudianteEncontrado));
-        lblCodigo.setText("Código: " + estudianteEncontrado.getCodigoEstudiantil());
+        lblEstudiante.setText(controlador.obtenerNombreCompleto(estudianteEncontrado));
+        lblCodigo.setText(estudianteEncontrado.getCodigoEstudiantil());
         
         // Cargar matrículas activas
         cargarMatriculasActivas(estudianteEncontrado.getIdEstudiante());

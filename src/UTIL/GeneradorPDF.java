@@ -171,15 +171,13 @@ public class GeneradorPDF {
             document.add(infoCurso);
             
             // Tabla de estudiantes
-            PdfPTable tabla = new PdfPTable(6);
+            PdfPTable tabla = new PdfPTable(4);
             tabla.setWidthPercentage(100);
-            tabla.setWidths(new float[]{1.5f, 3f, 1.5f, 2f, 2f, 1.5f});
+            tabla.setWidths(new float[]{1.5f, 3f, 1.5f, 2f});
             
             // Encabezados
             agregarCeldaEncabezado(tabla, "Código");
             agregarCeldaEncabezado(tabla, "Nombre Completo");
-            agregarCeldaEncabezado(tabla, "DNI");
-            agregarCeldaEncabezado(tabla, "Teléfono");
             agregarCeldaEncabezado(tabla, "Fecha Matrícula");
             agregarCeldaEncabezado(tabla, "Estado");
             
@@ -187,8 +185,6 @@ public class GeneradorPDF {
             for (MODELO_Matricula m : matriculas) {
                 agregarCeldaNormal(tabla, m.getCodigoMatricula());
                 agregarCeldaNormal(tabla, m.getNombreEstudiante());
-                agregarCeldaNormal(tabla, ""); // DNI - tendrías que agregarlo al modelo
-                agregarCeldaNormal(tabla, ""); // Teléfono - tendrías que agregarlo al modelo
                 agregarCeldaNormal(tabla, formatoFecha.format(m.getFechaMatricula()));
                 agregarCeldaNormal(tabla, m.getEstado());
             }

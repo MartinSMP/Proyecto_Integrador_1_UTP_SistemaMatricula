@@ -53,7 +53,7 @@ public class VISTA_FormularioDocente extends javax.swing.JDialog {
             btnGuardar.setText("GUARDAR CAMBIOS");
         } else {
             this.setTitle("Nuevo Docente");
-            jLabel2.setText("REGISTRO DE DOCENTE");  // ✅ CORRECTO
+            jLabel2.setText("AGREGAR NUEVO DOCENTE");  // ✅ CORRECTO
         }
     }
     

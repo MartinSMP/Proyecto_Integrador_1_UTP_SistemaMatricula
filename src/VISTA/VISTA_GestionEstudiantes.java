@@ -11,11 +11,13 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Comparator;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.border.Border;
+
 /**
  *
  * @author MartinSoftware
@@ -25,6 +27,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
     private MODELO_Usuario usuarioLogueado;
     private CONTROLADOR_Estudiante controlador;
     private DefaultTableModel modeloTabla;
+
     /**
      * Creates new form VISTA_GestionEstudiantes
      */
@@ -37,7 +40,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         configurarEfectosHover();
         cargarDatos();
     }
-    
+
     /**
      * Configurar ventana
      */
@@ -48,7 +51,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         btnHistorial.setEnabled(false);
         btnDarDeBaja.setEnabled(false);
     }
-    
+
     /**
      * Configurar modelo de la tabla
      */
@@ -59,7 +62,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
                 return false;
             }
         };
-        
+
         // Definir columnas
         modeloTabla.addColumn("ID");
         modeloTabla.addColumn("Código");
@@ -73,14 +76,14 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         modeloTabla.addColumn("Teléfono");
         modeloTabla.addColumn("Email");
         modeloTabla.addColumn("Estado");
-        
+
         tblEstudiantes.setModel(modeloTabla);
-        
+
         // Ocultar columna ID
         tblEstudiantes.getColumnModel().getColumn(0).setMinWidth(0);
         tblEstudiantes.getColumnModel().getColumn(0).setMaxWidth(0);
         tblEstudiantes.getColumnModel().getColumn(0).setWidth(0);
-        
+
         // Ajustar anchos de columnas
         tblEstudiantes.getColumnModel().getColumn(1).setPreferredWidth(100); // Código
         tblEstudiantes.getColumnModel().getColumn(2).setPreferredWidth(70);  // Tipo Doc
@@ -93,7 +96,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         tblEstudiantes.getColumnModel().getColumn(9).setPreferredWidth(90);  // Teléfono
         tblEstudiantes.getColumnModel().getColumn(10).setPreferredWidth(150); // Email
         tblEstudiantes.getColumnModel().getColumn(11).setPreferredWidth(80);  // Estado
-        
+
         // Evento de selección
         tblEstudiantes.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
@@ -104,15 +107,18 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
             }
         });
     }
-    
+
     /**
      * Cargar datos en la tabla
      */
     private void cargarDatos() {
         limpiarTabla();
-        
+
         List<MODELO_Estudiante> lista = controlador.listarTodos();
-        
+
+        // Ordenar por código estudiantil ASC
+        lista.sort(Comparator.comparing(MODELO_Estudiante::getCodigoEstudiantil));
+
         for (MODELO_Estudiante estudiante : lista) {
             Object[] fila = new Object[12];
             fila[0] = estudiante.getIdEstudiante();
@@ -127,13 +133,13 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
             fila[9] = estudiante.getTelefono();
             fila[10] = estudiante.getEmail() != null ? estudiante.getEmail() : "";
             fila[11] = estudiante.getEstado();
-            
+
             modeloTabla.addRow(fila);
         }
-        
-        System.out.println("✓ Se cargaron " + lista.size() + " estudiantes en la tabla");
+
+        System.out.println("✓ Se cargaron " + lista.size() + " estudiantes en la tabla, ordenados por código");
     }
-    
+
     /**
      * Limpiar tabla
      */
@@ -142,7 +148,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
             modeloTabla.removeRow(0);
         }
     }
-    
+
     private void configurarEfectosHover() {
         // Color original de los botones
         Color colorOriginalNuevo = btnHistorial.getBackground();
@@ -196,6 +202,13 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         });
     }
 
+    private void abrirFormularioNuevoEstudiante() {
+        VISTA_FormularioEstudiante formulario = new VISTA_FormularioEstudiante(
+                this, true, "0", usuarioLogueado
+        );
+        formulario.setVisible(true);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -219,6 +232,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
         btnDarDeBaja = new javax.swing.JButton();
         btnVolverPrincipal = new javax.swing.JButton();
         btnHistorial = new javax.swing.JButton();
+        btnNuevoEstudiante = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gestión de Estudiantes");
@@ -288,6 +302,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
                 "ID", "Código", "Tipo Doc", "Nº Documento", "Nombres", "Apellido Paterno", "Apellido Materno", "Edad", "Sexo", "Teléfono", "Email", "Estado"
             }
         ));
+        tblEstudiantes.setGridColor(new java.awt.Color(0, 0, 0));
         jScrollPane1.setViewportView(tblEstudiantes);
 
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 130, 850, 370));
@@ -303,7 +318,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
                 btnActualizarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 510, 210, 60));
+        jPanel1.add(btnActualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 510, 180, 60));
 
         btnEditar.setBackground(new java.awt.Color(255, 204, 102));
         btnEditar.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -316,7 +331,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
                 btnEditarActionPerformed(evt);
             }
         });
-        jPanel1.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 510, 180, 60));
+        jPanel1.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 510, 130, 60));
 
         btnDarDeBaja.setBackground(new java.awt.Color(255, 255, 255));
         btnDarDeBaja.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -329,7 +344,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
                 btnDarDeBajaActionPerformed(evt);
             }
         });
-        jPanel1.add(btnDarDeBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 510, 190, 60));
+        jPanel1.add(btnDarDeBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 510, 150, 60));
 
         btnVolverPrincipal.setBackground(new java.awt.Color(255, 255, 0));
         btnVolverPrincipal.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -354,7 +369,20 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
                 btnHistorialActionPerformed(evt);
             }
         });
-        jPanel1.add(btnHistorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 510, 220, 60));
+        jPanel1.add(btnHistorial, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 510, 160, 60));
+
+        btnNuevoEstudiante.setBackground(new java.awt.Color(153, 255, 255));
+        btnNuevoEstudiante.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        btnNuevoEstudiante.setForeground(new java.awt.Color(0, 0, 0));
+        btnNuevoEstudiante.setIcon(new javax.swing.ImageIcon(getClass().getResource("/UTIL/imagenes/agregar-usuario.png"))); // NOI18N
+        btnNuevoEstudiante.setText("Nuevo");
+        btnNuevoEstudiante.setBorder(null);
+        btnNuevoEstudiante.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoEstudianteActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnNuevoEstudiante, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 510, 170, 60));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -378,25 +406,25 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         String textoBusqueda = txtBuscar.getText().trim();
-        
+
         if (textoBusqueda.isEmpty()) {
-            JOptionPane.showMessageDialog(this, 
-                "Por favor ingrese un código, DNI o nombre para buscar", 
-                "Advertencia", 
-                JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Por favor ingrese un código, DNI o nombre para buscar",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         limpiarTabla();
-        
+
         // Intentar buscar por código
         MODELO_Estudiante estudiante = controlador.buscarPorCodigo(textoBusqueda);
-        
+
         // Si no encuentra por código, buscar por documento
         if (estudiante == null) {
             estudiante = controlador.buscarPorDocumento(textoBusqueda);
         }
-        
+
         // Si encontró un estudiante, agregarlo a la tabla
         if (estudiante != null) {
             Object[] fila = new Object[12];
@@ -412,16 +440,16 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
             fila[9] = estudiante.getTelefono();
             fila[10] = estudiante.getEmail() != null ? estudiante.getEmail() : "";
             fila[11] = estudiante.getEstado();
-            
+
             modeloTabla.addRow(fila);
-            
+
             System.out.println("✓ Estudiante encontrado");
         } else {
-            JOptionPane.showMessageDialog(this, 
-                "No se encontró ningún estudiante con ese criterio", 
-                "Información", 
-                JOptionPane.INFORMATION_MESSAGE);
-        }        
+            JOptionPane.showMessageDialog(this,
+                    "No se encontró ningún estudiante con ese criterio",
+                    "Información",
+                    JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
@@ -431,98 +459,98 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
         cargarDatos();
-        JOptionPane.showMessageDialog(this, 
-            "Tabla actualizada correctamente", 
-            "Información", 
-            JOptionPane.INFORMATION_MESSAGE);        
+        JOptionPane.showMessageDialog(this,
+                "Tabla actualizada correctamente",
+                "Información",
+                JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         int filaSeleccionada = tblEstudiantes.getSelectedRow();
-        
+
         if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, 
-                "Por favor seleccione un estudiante de la tabla", 
-                "Advertencia", 
-                JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Por favor seleccione un estudiante de la tabla",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         // Obtener ID del estudiante seleccionado
         int idEstudiante = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
-        
+
         // Buscar el estudiante completo
         MODELO_Estudiante estudiante = controlador.buscarPorId(idEstudiante);
-        
+
         if (estudiante == null) {
-            JOptionPane.showMessageDialog(this, 
-                "Error al obtener los datos del estudiante", 
-                "Error", 
-                JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Error al obtener los datos del estudiante",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         // Abrir formulario de edición
         VISTA_EditarEstudiante formulario = new VISTA_EditarEstudiante(this, true, estudiante, usuarioLogueado);
         formulario.setVisible(true);
-        
+
         // Recargar datos
         cargarDatos();
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnDarDeBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDarDeBajaActionPerformed
         int filaSeleccionada = tblEstudiantes.getSelectedRow();
-        
+
         if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, 
-                "Por favor seleccione un estudiante de la tabla", 
-                "Advertencia", 
-                JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Por favor seleccione un estudiante de la tabla",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         // Obtener datos del estudiante seleccionado
         int idEstudiante = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
         String codigoEstudiante = (String) modeloTabla.getValueAt(filaSeleccionada, 1);
-        String nombreCompleto = modeloTabla.getValueAt(filaSeleccionada, 4) + " " +
-                               modeloTabla.getValueAt(filaSeleccionada, 5) + " " +
-                               modeloTabla.getValueAt(filaSeleccionada, 6);
+        String nombreCompleto = modeloTabla.getValueAt(filaSeleccionada, 4) + " "
+                + modeloTabla.getValueAt(filaSeleccionada, 5) + " "
+                + modeloTabla.getValueAt(filaSeleccionada, 6);
         String estado = (String) modeloTabla.getValueAt(filaSeleccionada, 11);
-        
+
         // Verificar si ya está retirado
         if ("RETIRADO".equals(estado)) {
-            JOptionPane.showMessageDialog(this, 
-                "El estudiante ya está dado de baja", 
-                "Información", 
-                JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "El estudiante ya está dado de baja",
+                    "Información",
+                    JOptionPane.INFORMATION_MESSAGE);
             return;
         }
-        
+
         // Confirmar baja
-        int opcion = JOptionPane.showConfirmDialog(this, 
-            "¿Está seguro que desea dar de baja al estudiante?\n\n" + 
-            "Código: " + codigoEstudiante + "\n" +
-            "Nombre: " + nombreCompleto + "\n\n" +
-            "Esta acción cambiará el estado a RETIRADO.\n" +
-            "No se podrá realizar si tiene matrículas activas.", 
-            "Confirmar Baja", 
-            JOptionPane.YES_NO_OPTION,
-            JOptionPane.WARNING_MESSAGE);
-        
+        int opcion = JOptionPane.showConfirmDialog(this,
+                "¿Está seguro que desea dar de baja al estudiante?\n\n"
+                + "Código: " + codigoEstudiante + "\n"
+                + "Nombre: " + nombreCompleto + "\n\n"
+                + "Esta acción cambiará el estado a RETIRADO.\n"
+                + "No se podrá realizar si tiene matrículas activas.",
+                "Confirmar Baja",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+
         if (opcion == JOptionPane.YES_OPTION) {
             String resultado = controlador.darDeBajaEstudiante(idEstudiante);
-            
+
             if ("EXITO".equals(resultado)) {
-                JOptionPane.showMessageDialog(this, 
-                    "Estudiante dado de baja correctamente", 
-                    "Éxito", 
-                    JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        "Estudiante dado de baja correctamente",
+                        "Éxito",
+                        JOptionPane.INFORMATION_MESSAGE);
                 cargarDatos();
             } else {
-                JOptionPane.showMessageDialog(this, 
-                    resultado, 
-                    "Error", 
-                    JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this,
+                        resultado,
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnDarDeBajaActionPerformed
@@ -535,30 +563,34 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
 
     private void btnHistorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHistorialActionPerformed
         int filaSeleccionada = tblEstudiantes.getSelectedRow();
-        
+
         if (filaSeleccionada == -1) {
-            JOptionPane.showMessageDialog(this, 
-                "Por favor seleccione un estudiante de la tabla", 
-                "Advertencia", 
-                JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this,
+                    "Por favor seleccione un estudiante de la tabla",
+                    "Advertencia",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
+
         // Obtener ID del estudiante seleccionado
         int idEstudiante = (int) modeloTabla.getValueAt(filaSeleccionada, 0);
-        String nombreEstudiante = modeloTabla.getValueAt(filaSeleccionada, 4) + " " +
-                                 modeloTabla.getValueAt(filaSeleccionada, 5) + " " +
-                                 modeloTabla.getValueAt(filaSeleccionada, 6);
-        
+        String nombreEstudiante = modeloTabla.getValueAt(filaSeleccionada, 4) + " "
+                + modeloTabla.getValueAt(filaSeleccionada, 5) + " "
+                + modeloTabla.getValueAt(filaSeleccionada, 6);
+
         // Abrir ventana de historial
         VISTA_HistorialMatriculas ventana = new VISTA_HistorialMatriculas(idEstudiante, nombreEstudiante);
         ventana.setVisible(true);
     }//GEN-LAST:event_btnHistorialActionPerformed
 
+    private void btnNuevoEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoEstudianteActionPerformed
+        abrirFormularioNuevoEstudiante();
+
+    }//GEN-LAST:event_btnNuevoEstudianteActionPerformed
+
     /**
      * @param args the command line arguments
      */
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
@@ -567,6 +599,7 @@ public class VISTA_GestionEstudiantes extends javax.swing.JFrame {
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnHistorial;
     private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnNuevoEstudiante;
     private javax.swing.JButton btnVolverPrincipal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
