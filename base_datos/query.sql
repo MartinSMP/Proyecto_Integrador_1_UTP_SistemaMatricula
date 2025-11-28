@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-11-2025 a las 22:34:55
+-- Tiempo de generación: 28-11-2025 a las 01:32:27
 -- Versión del servidor: 10.4.13-MariaDB
 -- Versión de PHP: 7.4.7
 
@@ -47,9 +47,18 @@ CREATE TABLE `cursos` (
 --
 
 INSERT INTO `cursos` (`id_curso`, `nombre_curso`, `nivel`, `descripcion`, `duracion_meses`, `cupos_disponibles`, `id_horario`, `id_docente`, `fecha_inicio`, `fecha_fin`, `estado`, `fecha_creacion`) VALUES
-(1, 'Barbería proxsd', 'INTERMEDIO', 'nose', 2, 9, 5, 1, '2025-10-27', '2025-12-27', 'ACTIVO', '2025-10-23 19:59:31'),
-(2, 'Barberia', 'BASICO', 'asdsad', 2, 9, 1, 1, '2025-10-26', '2025-12-26', 'ACTIVO', '2025-10-23 20:39:18'),
-(3, 'Comestología', 'INTERMEDIO', '', 4, 20, 4, 2, '2025-11-17', '2026-03-23', 'ACTIVO', '2025-11-12 22:12:20');
+(1, 'Barbería Express', 'INTERMEDIO', 'Curso de Barberia nivel express', 2, 2, 5, 1, '2025-11-28', '2026-01-28', 'ACTIVO', '2025-10-23 19:59:31'),
+(2, 'Barberia para Novatos', 'BASICO', 'Curso para principiantes', 2, 9, 1, 1, '2025-11-28', '2026-01-28', 'ACTIVO', '2025-10-23 20:39:18'),
+(3, 'Comestología', 'INTERMEDIO', '', 4, 20, 4, 2, '2025-11-17', '2026-03-23', 'ACTIVO', '2025-11-12 22:12:20'),
+(4, 'Gastronomía', 'BASICO', '', 2, 5, 1, 6, '2025-11-29', '2026-01-29', 'ACTIVO', '2025-11-27 23:06:59'),
+(5, 'Gastronomía', 'INTERMEDIO', '', 3, 10, 2, 6, '2025-11-29', '2026-02-28', 'ACTIVO', '2025-11-27 23:07:21'),
+(6, 'Gastronomía', 'AVANZADO', '', 5, 10, 3, 6, '2025-11-29', '2026-04-29', 'ACTIVO', '2025-11-27 23:07:55'),
+(7, 'Cosmetología', 'INTERMEDIO', '', 3, 10, 4, 3, '2025-12-08', '2026-03-08', 'ACTIVO', '2025-11-27 23:08:26'),
+(8, 'Comestologia', 'AVANZADO', '', 5, 10, 9, 8, '2025-12-15', '2026-05-15', 'ACTIVO', '2025-11-27 23:11:47'),
+(9, 'Barberia Premium', 'AVANZADO', '', 3, 10, 12, 9, '2025-12-01', '2026-03-01', 'ACTIVO', '2025-11-27 23:12:51'),
+(10, 'Pasteleria', 'BASICO', '', 2, 10, 4, 5, '2025-12-08', '2026-02-08', 'ACTIVO', '2025-11-27 23:13:51'),
+(11, 'Pasteleria', 'INTERMEDIO', '', 3, 10, 11, 10, '2025-12-22', '2026-03-22', 'ACTIVO', '2025-11-27 23:14:36'),
+(12, 'Computacion', 'BASICO', '', 5, 20, 4, 7, '2026-01-12', '2026-06-12', 'ACTIVO', '2025-11-27 23:15:39');
 
 -- --------------------------------------------------------
 
@@ -79,7 +88,13 @@ INSERT INTO `docentes` (`id_docente`, `tipo_documento`, `numero_documento`, `nom
 (1, 'DNI', '12345678', 'Carlos P', 'Ramirez', 'Lopez', '987654321', 'carlos.ramirez@academia.com', 'Barbería', 'ACTIVO', '2025-10-21 02:52:14'),
 (2, 'DNI', '87654321', 'Maria', 'Gonzales', 'Torres', '987654322', 'maria.gonzales@academia.com', 'Diseño de Uñas', 'ACTIVO', '2025-10-21 02:52:14'),
 (3, 'DNI', '45678912', 'Ana', 'Flores', 'Medina', '987654323', 'ana.flores@academia.com', 'Extensión de Pestañas', 'ACTIVO', '2025-10-21 02:52:14'),
-(4, 'DNI', '72491885', 'Martin Sebastian', 'Martinez', 'Palacios', '944676744', 'martin@gmail.com', 'Informática', 'ACTIVO', '2025-10-23 00:33:19');
+(4, 'DNI', '22491885', 'Juan', 'Poma', 'Palacios', '944676744', 'juan@gmail.com', 'Informática', 'ACTIVO', '2025-10-23 00:33:19'),
+(5, 'DNI', '98240111', 'Valeria', 'Laura', 'Morales', '989633564', 'valeria@gmail.com', 'Hoteleria y Turismos', 'ACTIVO', '2025-11-27 22:13:23'),
+(6, 'DNI', '72649103', 'María Fernanda', 'Quispe', 'Valdivia', '987456120', 'mfer_quispe@example.com', 'Gastronomía', 'ACTIVO', '2025-11-27 22:22:26'),
+(7, 'CE', '00836491', 'Jorge Luis', 'Ramos', 'Huamán', '912345678', 'jorge.ramos@example.com', 'Computación', 'ACTIVO', '2025-11-27 22:22:26'),
+(8, 'DNI', '75120984', 'Diana', 'Chávez', 'Morales', '986741230', 'diana.chavez@example.com', 'Cosmetología', 'ACTIVO', '2025-11-27 22:22:26'),
+(9, 'PASAPORTE', '00381276', 'Carlos Alberto', 'Mendoza', 'Lazo', '923874561', 'carlos.mendoza@example.com', 'Barbería', 'ACTIVO', '2025-11-27 22:22:26'),
+(10, 'DNI', '74852190', 'Alejandra', 'Guzmán', 'Rivas', '965214873', 'ale_guzman@example.com', 'Pastelería', 'ACTIVO', '2025-11-27 22:22:26');
 
 -- --------------------------------------------------------
 
@@ -110,7 +125,14 @@ CREATE TABLE `estudiantes` (
 --
 
 INSERT INTO `estudiantes` (`id_estudiante`, `codigo_estudiantil`, `tipo_documento`, `numero_documento`, `nombres`, `apellido_paterno`, `apellido_materno`, `fecha_nacimiento`, `edad`, `sexo`, `telefono`, `email`, `direccion`, `estado`, `fecha_registro`) VALUES
-(1, 'EST-2025-001', 'DNI', '72491885', 'Martín Sebastian', 'Martinez', 'Palacios', '2003-05-30', 22, 'M', '944676744', 'martin@gmail.com', 'Avenida Daniel Alcides Carrion', 'ACTIVO', '2025-11-11 22:21:15');
+(1, 'EST-2025-001', 'DNI', '72491885', 'Martín Sebastian', 'Martinez', 'Palacios', '2003-05-30', 22, 'M', '944676744', 'martin@gmail.com', 'Avenida Daniel Alcides Carrion', 'ACTIVO', '2025-11-11 22:21:15'),
+(2, 'EST-2025-002', 'DNI', '42094132', 'Patricia', 'Mori', 'Caldas', '2000-07-24', 25, 'F', '989632131', NULL, 'Asoc. Los Chasquis', 'ACTIVO', '2025-11-27 22:36:28'),
+(3, 'EST-2025-003', 'DNI', '89632123', 'Sebastian', 'Crispin', 'Sandoval', '1999-06-08', 26, 'M', '986584563', 'sebastian@gmail.com', 'Av Carlos Izaguirre', 'ACTIVO', '2025-11-27 22:45:26'),
+(4, 'EST-2025-004', 'DNI', '42019142', 'Fiorella', 'Fernandez', 'Laura', '2003-05-27', 22, 'F', '965965326', 'fiorella@gmail.com', 'Avenida Mayolo', 'ACTIVO', '2025-11-27 22:47:46'),
+(5, 'EST-2025-005', 'DNI', '36956878', 'Milene', 'Ibarra', 'Morales', '2005-07-19', 20, 'F', '983654872', 'milene.wushui@gmail.com', 'Altura Pro - Los Olivos', 'ACTIVO', '2025-11-27 22:49:08'),
+(6, 'EST-2025-006', 'DNI', '69845621', 'Orlando', 'Meza', 'Perez', '2005-09-24', 20, 'M', '562636326', 'orlando@gmail.com', 'Santa Luisa - Los Olivos', 'ACTIVO', '2025-11-27 22:52:27'),
+(7, 'EST-2025-007', 'DNI', '12515155', 'Andersson', 'Espinoza', 'Torrez', '2006-11-23', 19, 'M', '966631825', 'andersson@github.com', 'Altura Puente Piedra', 'ACTIVO', '2025-11-27 22:54:02'),
+(8, 'EST-2025-008', 'DNI', '50620312', 'Emma', 'Grace', 'Myers', '2002-06-11', 23, 'F', '987546123', 'emma@gmail.com', 'Av Canta Callao - SMP', 'ACTIVO', '2025-11-27 22:58:14');
 
 -- --------------------------------------------------------
 
@@ -170,7 +192,9 @@ CREATE TABLE `matriculas` (
 
 INSERT INTO `matriculas` (`id_matricula`, `codigo_matricula`, `id_estudiante`, `id_curso`, `fecha_matricula`, `observaciones`, `estado`, `id_usuario_registro`, `fecha_registro`) VALUES
 (1, 'MAT-2025-001', 1, 1, '2025-11-11', '', 'ACTIVO', 1, '2025-11-11 22:21:47'),
-(2, 'MAT-2025-002', 1, 2, '2025-11-11', '', 'ACTIVO', 1, '2025-11-11 22:22:33');
+(2, 'MAT-2025-002', 1, 2, '2025-11-11', '', 'ACTIVO', 1, '2025-11-11 22:22:33'),
+(3, 'MAT-2025-003', 3, 1, '2025-11-27', '', 'ACTIVO', 1, '2025-11-27 23:19:21'),
+(4, 'MAT-2025-004', 7, 1, '2025-11-27', '', 'ACTIVO', 1, '2025-11-27 23:19:46');
 
 -- --------------------------------------------------------
 
@@ -194,9 +218,9 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id_usuario`, `username`, `password`, `nombre_completo`, `rol`, `estado`, `fecha_creacion`, `ultimo_acceso`) VALUES
-(1, 'admin', 'admin123', 'Administrador del Sistema', 'ADMINISTRADOR', 'ACTIVO', '2025-10-21 02:52:14', '2025-11-20 16:32:47'),
-(2, 'recepcion', 'recep123', 'Usuario Recepción', 'RECEPCIONISTA', 'ACTIVO', '2025-10-21 02:52:14', '2025-11-12 16:52:36'),
-(3, 'martin', 'admin123', 'Desarrollador', 'ADMINISTRADOR', 'ACTIVO', '2025-11-12 21:54:41', '2025-11-12 16:56:06');
+(1, 'admin', 'admin123', 'Administrador del Sistema', 'ADMINISTRADOR', 'ACTIVO', '2025-10-21 02:52:14', '2025-11-27 18:42:53'),
+(2, 'recepcion', 'recep123', 'Usuario Recepción', 'RECEPCIONISTA', 'ACTIVO', '2025-10-21 02:52:14', '2025-11-27 18:22:04'),
+(3, 'martin', 'admin123', 'Desarrollador', 'ADMINISTRADOR', 'ACTIVO', '2025-11-12 21:54:41', '2025-11-27 18:22:46');
 
 -- --------------------------------------------------------
 
@@ -345,19 +369,19 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_curso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `docentes`
 --
 ALTER TABLE `docentes`
-  MODIFY `id_docente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_docente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `estudiantes`
 --
 ALTER TABLE `estudiantes`
-  MODIFY `id_estudiante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_estudiante` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `horarios`
@@ -369,7 +393,7 @@ ALTER TABLE `horarios`
 -- AUTO_INCREMENT de la tabla `matriculas`
 --
 ALTER TABLE `matriculas`
-  MODIFY `id_matricula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_matricula` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
