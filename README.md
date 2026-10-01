@@ -1,6 +1,6 @@
 # 🧾 Sistema de Matrícula - Proyecto Integrador I
 
-📚 **Carrera:** Ingeniería de Software
+📚 **Carrera:** Ingeniería de Software | Curso Integrador 1 - Sistemas Software
 🏫 **Universidad:** Universidad Tecnológica del Perú (UTP) - Lima Norte  
 👨‍💻 **Desarrollado por:** Martín Sebastian Martinez Palacios @martindevpalacios
 📅 **Año:** 2025  
