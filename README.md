@@ -19,7 +19,7 @@ Este proyecto fue desarrollado como parte del curso **Integrador I - Sistemas So
 - ☕ **Java SE 8+**  
 - 🛢️ **MySQL** (Base de datos relacional)  
 - 🧩 **JDBC** para la conexión entre Java y MySQL  
-- 🧰 **NetBeans IDE** para el desarrollo  
+- 🧰 **NetBeans IDE** para el desarrollo del Proyecto 
 - 🖥️ **VS Code + GitHub** para control de versiones y documentación  
 
 ---
@@ -43,5 +43,5 @@ Este proyecto fue desarrollado como parte del curso **Integrador I - Sistemas So
 
 Desarrollado al 100% por
 Martin Sebastian Martinez Palacios – Estudiante de Ingeniería de Software
-📧 Contacto: martinsoftwaredev@hotmail.com
+📧 Contacto / Correo: martinsoftwaredev@hotmail.com
 🌐 GitHub: https://github.com/MartinSMP
